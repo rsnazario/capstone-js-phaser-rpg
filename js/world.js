@@ -77,7 +77,55 @@ class WorldScene extends Phaser.Scene {
       repeat: -1
     });
 
+
+    this.spawns = this.physics.add.group({classType: Phaser.Objects.Zone});
+
+    for(var i = 0; i < 30; i++) {
+      var x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
+      var y = Phsaer.Math.RND.between(0, this.physics.world.bounds.height);
+
+      this.spawns.create(x, y, 20, 20);
+    }
+
+    this.physics.add.overlap(this.player, this.spawns, this.onMeetEnemy, false, this);
+    this.sys.events.on('wake', this.wake, this);
   }
 
-  
+  update(time, delta) {
+    this.player.body.setVelocity(0);
+
+    if (this.cursors.left.isDown) {
+      this.player.setVelocityX(-80);
+    }
+    else if (this.cursors.right.isDown) {
+      this.player.setVelocityX(80);
+    }
+
+    if (this.cursors.up.isDown) {
+      this.player.setVelocityY(-80);
+    }
+    else if (this.cursors.down.isDown) {
+      this.player.setVelocityY(80);
+    }
+
+    if (this.cursors.left.isDown) {
+      this.player.anims.play('left', true);
+      this.player.flipX = true;
+    }
+    else if (this.cursors.right.isDown) {
+      this.player.anims.play('right', true);
+      this.player.flipX = false;
+    }
+    else if (this.cursors.up.isDown) {
+      this.player.anims.play('up', true);
+    }
+    else if (this.cursors.down.isDown) {
+      this.player.anims.play('down', true);
+    }
+    else {
+      this.player.anims.stop();
+    }
+  }
+
+
 }
