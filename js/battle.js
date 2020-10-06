@@ -73,6 +73,36 @@ class BattleScene extends Phaser.Scene {
 
     return victory || gameOver;
   }
+
+  endBattle() {
+    this.heroes.length = 0;
+    this.enemies.length = 0;
+    for (var i = 0; i < this.units.length; i++) {
+      this.units[i].destroy();
+    }
+
+    this.units.length = 0;
+
+    this.scene.sleep('UIScene');
+    this.scene.switch('WorldScene');
+  }
+
+  receivePlayerSelection(action, target) {
+    if (action === 'attack') {
+      this.units[this.index].attack(this.enemies[target]);
+    }
+    this.time.addEvent({delay: 3000, callback: this.nextTurn, callbackScope: this})
+  }
+
+  wake() {
+    this.scene.restart('UIScene');
+    this.time.addEvent({delay: 3000, callback: this.exitBattle, callbackScope: this})
+  }
+
+  exitBattle() {
+    this.scene.sleep('UIScene');
+    this.scene.switch('WorldScene');
+  }
 }
 
 class UIScene extends Phaser.Scene {
