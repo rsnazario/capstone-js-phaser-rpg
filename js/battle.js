@@ -205,57 +205,112 @@ class UIScene extends Phaser.Scene {
 
 class Unit extends Phaser.GameObjects.Sprite {
   constructor(scene, x, y, texture, frame, type, hp, damage, scale) {
+    super(scene, x, y, texture, frame);
+    this.type = type;
+    this.maxHP = this.hp = hp;
+    this.damage = damage;
+    this.setScale(scale);
 
+    this.living = true;
+    this.menuItem = true;
   }
 
   setMenuItem(item) {
-
+    this.menuItem = item;
   }
 
   attack(target) {
-
-  }
+    target.takeDamage(this.damage);
+    this.scene.events.emit('Message', this.type + ' Attacks ' + target.type + ' for ' + this.damage + ' Damage');
+  };
 
   takeDamage(damage) {
-
+    this.hp -= damage;
+    if (this.hp <= 0) {
+      this.hp = 0;
+      this.menuItem.unitKilled();
+      this.living = false;
+      this.visible = false;
+      this.menuItem = null;
+    }
   }
 }
 
 class PlayerCharacter extends Unit {
   constructor(scene, x, y, texture, frame, type, hp, damage) {
-
+    super(scene, x, y, texture, frame, type, hp, damage, 1.3);
   }
 }
 
 class Enemy extends Unit {
   constructor(scene, x, y, texture, frame, type, hp, damage) {
+    super(scene, x, y, texture, frame, type, hp, damage, 0.8);
 
+    this.flipX = true;
+    this.setScale(2);
   }
 }
 
 class Menu extends Phaser.GameObjects.Container {
   constructor(x, y, scene, heroes) {
-
+    super(scene, x, y);
+    this.menuItems = [];
+    this.menuItemIndex = 0;
+    this.x = x;
+    this.y = y;
+    this.selected = false;
   }
 
   addMenuItem(unit) {
-
+    var menuItem = new MenuItem(0, this.menuItems.length * 20, unit, this.scene);
+    this.menuItems.push(menuItem);
+    this.add(menuItem);
+    return menuItem;
   }
 
   moveSelectionUp() {
-
+    this.menuItems[this.menuItemIndex].deselect();
+    do {
+      this.menuItemIndex--;
+      if (this.menuItemIndex < 0)
+        this.menuItemIndex = this.menuItems.length - 1;
+    } while (!this.menuItems[this.menuItemIndex].active);
+    this.menuItems[this.menuItemIndex].select();
   }
 
   moveSelectionDown() {
-
+    this.menuItems[this.menuItemIndex].deselect();
+    do {
+      this.menuItemIndex++;
+      if (this.menuItemIndex > this.menuItems.length - 1)
+        this.menuItemIndex = 0
+    } while (!this.menuItems[this.menuItemIndex].active);
+    this.menuItems[menuItemIndex].select();
   }
 
   select(index) {
+    if (!index)
+      index = 0;
+    
+    this.menuItems[this.menuItemIndex].deselect();
+    this.menuItemIndex = index;
 
+    while (!this.menuItems[this.menuItemIndex].active) {
+      this.menuItemIndex++;
+      if (this.menuItemIndex >= this.menuItems.length) 
+        this.menuItemIndex = 0
+      if (this.menuItemIndex == index) 
+        return;
+    }
+
+    this.menuItems[this.menuItemIndex].select();
+    this.selected = true;
   }
 
   deselect() {
-
+    this.menuItems[this.menuItemIndex].deselect();
+    this.menuItemIndex = 0;
+    this.selected = false;
   }
 
   confirm() {
@@ -263,68 +318,99 @@ class Menu extends Phaser.GameObjects.Container {
   }
 
   clear() {
-
+    for (var i = 0; i < this.menuItems.length; i++) {
+      this.menuItems[i].destroy();
+    }
+    this.menuItems.length = 0;
+    this.menuItemIndex = 0;
   }
 
   remap(units) {
-
+    this.clear();
+    for (var i = 0; i < units.length; i++) {
+      var unit = units[i];
+      unit.setMenuItem(this.addMenuItem(unit.type));
+    }
+    this.menuItemIndex = 0;
   }
 }
 
 class MenuItem extends Phaser.GameObjects.Text {
   constructor(x, y, text, scene) {
-
+    super(scene, x, y, text, {color: '#ffffff', align: 'left'});
   }
 
   select() {
-
+    this.setColor('#f8ff38');
   }
 
   deselect() {
-
+    this.setColor('#ffffff');
   }
 
   unitKilled() {
-
+    this.active = false;
+    this.visible = false;
   }
 }
 
 class HeroesMenu extends Menu {
   constructor(x, y, scene) {
-
+    super(x, y, scene);
   }
 }
 
 class ActionsMenu extends Menu {
   constructor(x, y, scene) {
-
+    super(x, y, scene);
+    this.addMenuItem('Attack');
   }
 
   confirm() {
-
+    this.scene.events.emit('SelectedAction');
   }
 }
 
 class EnemiesMenu extends Menu {
   constructor(x, y, scene) {
-
+    super(x, y, scene);
   }
 
   confirm() {
-
+    this.scene.events.emit('Enemy', this.menuItemIndex);
   }
 }
 
 class Message extends Phaser.GameObjects.Container {
   constructor(scene, events) {
+    super(scene, 160, 30);
 
+    var graphics = this.scene.add.graphics();
+    this.add(graphics);
+
+    graphics.lineStyle(1, 0xffffff, 0.8);
+    graphics.fillStyle(0x031f4c, 0.3);
+    graphics.strokeRect(-90, -15, 180, 30);
+    graphics.fillRect(-90, -15, 180, 30);
+
+    this.text = new Phaser.GameObjects.Text(scene, 0, 0, "", {color: '#ffffff', align: 'center', fontSize: 13, wordWrap: {width: 170, useAdvanceWrap: true}}).setOrigin(0.5);
+    this.add(this.text);
+
+    events.on('Message', this.showMessage, this);
+    this.visible = false;
   }
 
   showMessage(text) {
-
+    this.text.setText(text);
+    this.visible = true;
+    if (this.hideEvent) {
+      this.hideEvent.remove(false);
+    }
+    this.hideEvent = this.scene.time.addEvent({delay: 2000, callback: this.hideMessage, callbackScope: this});
   }
 
   hideMessage() {
-    
+    this.hideEvent = null;
+    this.visible = false;
   }
 }
