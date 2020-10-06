@@ -152,8 +152,34 @@ class UIScene extends Phaser.Scene {
     this.createMenu();
   }
 
-  
-}
+  createMenu() {
+
+  }
+
+  remapHeroes() {
+
+  }
+
+  remapEnemies() {
+
+  }
+
+  onKeyInput(event) {
+
+  }
+
+  onPlayerSelect(id) {
+
+  }
+
+  onSelectedAction() {
+
+  }
+
+  onEnemy(index) {
+
+  }
+};
 
 class Unit extends Phaser.GameObjects.Sprite {
 
