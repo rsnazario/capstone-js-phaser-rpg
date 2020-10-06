@@ -153,31 +153,53 @@ class UIScene extends Phaser.Scene {
   }
 
   createMenu() {
-
+    this.remapHeroes();
+    this.remapEnemies();
+    this.battleScene.nextTurn();
   }
 
   remapHeroes() {
-
+    var heroes = this.battleScene.heroes;
+    this.heroesMenu.remap(heroes);
   }
 
   remapEnemies() {
-
+    var enemies = this.battleScene.enemies;
+    this.enemiesMenu.remap(enemies);
   }
 
   onKeyInput(event) {
+    if (this.currentMenu && this.currentMenu.selected) {
 
+      if (event.code === 'ArrowUp') {
+        this.currentMenu.moveSelectionUp();
+      }
+      else if (event.code === 'ArrowDown') {
+        this.currentMenu.moveSelectionDown();
+      }
+      else if (event.code === 'ArrowLeft' || event.code === 'Space') {
+        this.currentMenu.confirm();
+      }
+    }
   }
 
   onPlayerSelect(id) {
-
+    this.heroesMenu.select(id);
+    this.actionsMenu.select(0);
+    this.currentMenu = this.actionsMenu;
   }
 
   onSelectedAction() {
-
+    this.currentMenu = this.enemiesMenu;
+    this.enemiesMenu.select(0);
   }
 
   onEnemy(index) {
-
+    this.heroesMenu.deselect();
+    this.actionsMenu.deselect();
+    this.enemiesMenu.deselect();
+    this.currentMenu = null;
+    this.battleScene.receivePlayerSelection('attack', index);
   }
 };
 
