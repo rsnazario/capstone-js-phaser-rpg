@@ -23,10 +23,6 @@ class WorldScene extends Phaser.Scene {
     super('WorldScene');
   }
 
-  preload() {
-
-  }
-
   create() {
     var map = this.make.tilemap({key: 'map'});
     var tiles = map.addTilesetImage('spritesheet', 'tiles');
@@ -80,7 +76,7 @@ class WorldScene extends Phaser.Scene {
 
     this.spawns = this.physics.add.group({classType: Phaser.Objects.Zone});
 
-    for(var i = 0; i < 30; i++) {
+    for(var i = 0; i < 40; i++) {
       var x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
       var y = Phsaer.Math.RND.between(0, this.physics.world.bounds.height);
 
@@ -136,4 +132,10 @@ class WorldScene extends Phaser.Scene {
     this.scene.switch('BattleScene');
   }
 
+  wake() {
+    this.cursors.left.reset();
+    this.cursors.right.reset();
+    this.cursors.up.reset();
+    this.cursors.down.reset();
+  }
 }
