@@ -9,8 +9,7 @@ class BattleScene extends Phaser.Scene {
     this.sys.events.on('wake', this.startBattle, this);
   }
 
-  startBattle() {
-    
+  startBattle() {  
     var warrior = new PlayerCharacter(this, 250, 50, 'player', 1, 'Warrior', 100, 20);
     this.add.existing(warrior);
 
@@ -31,6 +30,48 @@ class BattleScene extends Phaser.Scene {
     this.index = -1;
 
     this.scene.run('UIScene');
+  }
+
+  nextTurn() {
+    if (this.checkEndBattle()) {
+      this.endBattle();
+      return;
+    }
+    do {
+      this.index++;
+
+      if (this.index >= this.units.length) {
+        this.index = 0;
+      }
+    } while (!this.units[this.index].living);
+
+    if (this.units[this.index] instanceof PlayerCharacter) {
+      this.events.emit('PlayerSelect', this.index);
+    } else {
+      var r;
+      do {
+        r = Math.floor(Math.random() * this.heroes.length);
+      } while (!this.heroes[r].living);
+
+      this.time.addEvent({delay: 3000, callback: this.nextTurn, callbackScope: this});
+    }
+  }
+
+  checkEndBattle() {
+    var victory = true;
+    var gameOver = true;
+
+    for (var i = 0; i < this.enemies.length; i++) {
+      if (this.enemies[i].living) 
+        victory = false;
+    }
+
+    for (var i = 0; i < this.enemies.length; i++) {
+      if (this.heroes[i].living)
+        gameOver = false;
+    }
+
+    return victory || gameOver;
   }
 }
 
