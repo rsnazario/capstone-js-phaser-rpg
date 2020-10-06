@@ -204,37 +204,127 @@ class UIScene extends Phaser.Scene {
 };
 
 class Unit extends Phaser.GameObjects.Sprite {
+  constructor(scene, x, y, texture, frame, type, hp, damage, scale) {
 
+  }
+
+  setMenuItem(item) {
+
+  }
+
+  attack(target) {
+
+  }
+
+  takeDamage(damage) {
+
+  }
 }
 
 class PlayerCharacter extends Unit {
+  constructor(scene, x, y, texture, frame, type, hp, damage) {
 
+  }
 }
 
 class Enemy extends Unit {
+  constructor(scene, x, y, texture, frame, type, hp, damage) {
 
+  }
 }
 
 class Menu extends Phaser.GameObjects.Container {
+  constructor(x, y, scene, heroes) {
 
+  }
+
+  addMenuItem(unit) {
+
+  }
+
+  moveSelectionUp() {
+
+  }
+
+  moveSelectionDown() {
+
+  }
+
+  select(index) {
+
+  }
+
+  deselect() {
+
+  }
+
+  confirm() {
+
+  }
+
+  clear() {
+
+  }
+
+  remap(units) {
+
+  }
 }
 
 class MenuItem extends Phaser.GameObjects.Text {
+  constructor(x, y, text, scene) {
 
+  }
+
+  select() {
+
+  }
+
+  deselect() {
+
+  }
+
+  unitKilled() {
+
+  }
 }
 
 class HeroesMenu extends Menu {
+  constructor(x, y, scene) {
 
+  }
 }
 
 class ActionsMenu extends Menu {
+  constructor(x, y, scene) {
 
+  }
+
+  confirm() {
+
+  }
 }
 
 class EnemiesMenu extends Menu {
+  constructor(x, y, scene) {
 
+  }
+
+  confirm() {
+
+  }
 }
 
 class Message extends Phaser.GameObjects.Container {
+  constructor(scene, events) {
 
+  }
+
+  showMessage(text) {
+
+  }
+
+  hideMessage() {
+    
+  }
 }
