@@ -106,7 +106,53 @@ class BattleScene extends Phaser.Scene {
 }
 
 class UIScene extends Phaser.Scene {
+  constructor() {
+    super('UIScene');
+  }
 
+  create() {
+    this.graphics = this.add.graphics();
+    this.graphics.lineStyle(1, 0xffffff);
+    this.graphics.fillStyle(0x031f4c, 1);
+
+    this.graphics.strokeRect(2, 150, 90, 100);
+    this.graphics.fillRect(2, 150, 90, 100);
+
+    this.graphics.strokeRect(95, 150, 90, 100);
+    this.graphics.fillRect(95, 150, 90, 100);
+
+    this.graphics.strokeRect(188, 150, 130, 100);
+    this.graphics.fillRect(188, 150, 130, 100);
+
+    this.menus = this.add.container();
+
+    this.heroesMenu = new HeroesMenu(195, 153, this);
+    this.actionsMenu = new ActionsMenu(100, 153, this);
+    this.enemiesMenu = new EnemiesMenu(8, 153, this);
+
+    this.currentMenu = this.actionsMenu;
+
+    this.menus.add(this.heroesMenu);
+    this.menus.add(this.actionsMenu);
+    this.menus.add(this.enemiesMenu);
+
+    this.battleScene = this.scene.get('BattleScene');
+
+    this.input.keyboard.on('keydown', this.onKeyInput, this);
+
+    this.battleScene.events.on('PlayerSelect', this.onPlayerSelect, this);
+    this.events.on('SelectedAction', this.onSelectedAction, this);
+    this.events.on('Enemy', this.onEnemy, this);
+
+    this.sys.events.on('wake', this.createMenu, this);
+
+    this.message = new Message(this, this.battleScene.events);
+    this.add.existing(this.message);
+
+    this.createMenu();
+  }
+
+  
 }
 
 class Unit extends Phaser.GameObjects.Sprite {
