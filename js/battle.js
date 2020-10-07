@@ -13,6 +13,24 @@ class BattleScene extends Phaser.Scene {
     this.sys.events.on('wake', this.startBattle, this);
   }
 
+  generateRandomEnemies() {
+    var allEnemies = ['dragonblue', 'dragonorange', 'dragonwhite', 'dragonred'];
+    var names = ['Blue D.', 'Orange D.', 'White D.', 'Red D.'];
+
+    // for the first enemy:
+    var firstIndex = Math.floor(Math.random() * allEnemies.length);
+
+    var firstEnemy = new Enemy(this, 50, 40, allEnemies[firstIndex], null, names[firstIndex], 30, 10);
+    this.add.existing(firstEnemy);
+
+    // for the second enemy:
+    var secondIndex = Math.floor(Math.random() * allEnemies.length);
+    var secondEnemy = new Enemy(this, 50, 110, allEnemies[secondIndex], null, names[secondIndex], 30, 10);
+    this.add.existing(secondEnemy);
+
+    return [firstEnemy, secondEnemy];
+  }
+
   startBattle() {
     // player character ==> warrior
     var warriorFactor = 1;
@@ -27,21 +45,11 @@ class BattleScene extends Phaser.Scene {
       mageFactor = 2;
     // player character ==> mage
     var mage = new PlayerCharacter(this, 250, 100, 'player', 4, 'Mage', this.mageHP, 20 * mageFactor);
-    this.add.existing(mage);
+    this.add.existing(mage); 
 
-    var dragonblue = new Enemy(this, 50, 40, 'dragonblue', null, 'Blue D.', 30, 10);
-    this.add.existing(dragonblue);
-
-    var dragonorange = new Enemy(this, 50, 110, 'dragonorange', null, 'Orange D.', 30, 10);
-
-    var dragonwhite = new Enemy(this, 50, 40, 'dragonwhite', null, 'White D.', 40, 10);
-    this.add.existing(dragonwhite);
-
-    
-    this.add.existing(dragonorange);
+    this.enemies = this.generateRandomEnemies();
 
     this.heroes = [ warrior, mage ];
-    this.enemies = [dragonblue, dragonorange ];
 
     this.units = this.heroes.concat(this.enemies);
 
@@ -440,10 +448,10 @@ class Message extends Phaser.GameObjects.Container {
 
     graphics.lineStyle(1, 0xffffff, 0.8);
     graphics.fillStyle(0x031f4c, 0.3);
-    graphics.strokeRect(-90, -15, 180, 30);
-    graphics.fillRect(-90, -15, 180, 30);
+    graphics.strokeRect(-100, -15, 200, 30);
+    graphics.fillRect(-100, -15, 200, 30);
 
-    this.text = new Phaser.GameObjects.Text(scene, 0, 0, "", {color: '#ffffff', align: 'center', fontSize: 13, wordWrap: {width: 170, useAdvancedWrap: true}}).setOrigin(0.5);
+    this.text = new Phaser.GameObjects.Text(scene, 0, 0, "", {color: '#ffffff', align: 'center', fontSize: 12, wordWrap: {width: 195, useAdvancedWrap: true}}).setOrigin(0.5);
     this.add(this.text);
 
     events.on('Message', this.showMessage, this);
