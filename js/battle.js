@@ -11,19 +11,25 @@ class BattleScene extends Phaser.Scene {
     this.cameras.main.setBackgroundColor('rgba(0, 200, 0, 0.5)');
     this.startBattle();
     this.sys.events.on('wake', this.startBattle, this);
-
   }
 
   startBattle() {
     // player character ==> warrior
-    var warrior = new PlayerCharacter(this, 250, 50, 'player', 1, 'Warrior', this.warriorHP, 20);
+    var warriorFactor = 1;
+    if (this.warriorHP < 33) 
+      warriorFactor = 2;
+
+    var warrior = new PlayerCharacter(this, 250, 50, 'player', 1, 'Warrior', this.warriorHP, 15 * warriorFactor);
     this.add.existing(warrior);
 
+    var mageFactor = 1;
+    if (this.mageHP < 25) 
+      mageFactor = 2;
     // player character ==> mage
-    var mage = new PlayerCharacter(this, 250, 100, 'player', 4, 'Mage', this.mageHP, 8);
+    var mage = new PlayerCharacter(this, 250, 100, 'player', 4, 'Mage', this.mageHP, 20 * mageFactor);
     this.add.existing(mage);
 
-    var dragonblue = new Enemy(this, 50, 40, 'dragonblue', null, 'Dragon', 30, 20);
+    var dragonblue = new Enemy(this, 50, 40, 'dragonblue', null, 'Dragon', 30, 15);
     this.add.existing(dragonblue);
 
     var dragonorange = new Enemy(this, 50, 110, 'dragonorange', null, 'Dragon2', 30, 15);
@@ -55,8 +61,6 @@ class BattleScene extends Phaser.Scene {
 
     // if its player hero
     if (this.units[this.index] instanceof PlayerCharacter) {
-      console.log('warrior hp : ' + this.heroes[0].hp);
-      console.log('mage hp : ' + this.heroes[1].hp);
       this.events.emit('PlayerSelect', this.index);
     } else {
       // random index for attacking
@@ -106,8 +110,15 @@ class BattleScene extends Phaser.Scene {
   }
 
   endBattle() {
-    this.warriorHP = this.heroes[0].hp;
-    this.mageHP = this.heroes[1].hp;
+    this.warriorHP = this.heroes[0].hp + 10;
+    this.mageHP = this.heroes[1].hp + 10;
+
+    if (this.warriorHP > this.heroes[0].maxHP) 
+      this.warriorHP = this.heroes[0].maxHP;
+
+    if (this.mageHP > this.heroes[1].maxHP)
+      this.mageHP = this.heroes[1].maxHP;
+    
     this.heroes.length = 0;
     this.enemies.length = 0;
     for (var i = 0; i < this.units.length; i++) {
@@ -286,7 +297,7 @@ class Menu extends Phaser.GameObjects.Container {
     this.menuItemIndex = 0;
     this.x = x;
     this.y = y;
-    // this.heroes = heroes;
+    this.heroes = heroes;
     this.selected = false;
   }
 
@@ -365,6 +376,7 @@ class Menu extends Phaser.GameObjects.Container {
     for(var i = 0; i < units.length ; i++) {
       var unit = units[i];
       unit.setMenuItem(this.addMenuItem(unit.type));
+      
     }
     this.menuItemIndex = 0;
   }
