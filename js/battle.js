@@ -1,4 +1,3 @@
-
 class BattleScene extends Phaser.Scene {
   constructor() {
     super('BattleScene');
@@ -6,7 +5,7 @@ class BattleScene extends Phaser.Scene {
 
   create() {
     // change backgroundColor\
-    this.warriorHP = 100;
+    this.warriorHP = 130;
     this.mageHP = 80;
     this.cameras.main.setBackgroundColor('rgba(0, 200, 0, 0.5)');
     this.startBattle();
@@ -15,17 +14,19 @@ class BattleScene extends Phaser.Scene {
 
   generateRandomEnemies() {
     var allEnemies = ['dragonblue', 'dragonorange', 'dragonwhite', 'dragonred'];
-    var names = ['Blue D.', 'Orange D.', 'White D.', 'Red D.'];
+    var enemiesNames = ['Blue D.', 'Orange D.', 'White D.', 'Red D.'];
+    var enemiesHPs = [24, 29, 60, 33];
+    var enemiesDamage = [25, 22, 18, 20];
 
     // for the first enemy:
     var firstIndex = Math.floor(Math.random() * allEnemies.length);
 
-    var firstEnemy = new Enemy(this, 50, 40, allEnemies[firstIndex], null, names[firstIndex], 30, 10);
+    var firstEnemy = new Enemy(this, 50, 40, allEnemies[firstIndex], null, enemiesNames[firstIndex], enemiesHPs[firstIndex], enemiesDamage[firstIndex]);
     this.add.existing(firstEnemy);
 
     // for the second enemy:
     var secondIndex = Math.floor(Math.random() * allEnemies.length);
-    var secondEnemy = new Enemy(this, 50, 110, allEnemies[secondIndex], null, names[secondIndex], 30, 10);
+    var secondEnemy = new Enemy(this, 50, 110, allEnemies[secondIndex], null, enemiesNames[secondIndex], enemiesHPs[secondIndex], enemiesDamage[secondIndex]);
     this.add.existing(secondEnemy);
 
     return [firstEnemy, secondEnemy];
@@ -37,7 +38,7 @@ class BattleScene extends Phaser.Scene {
     if (this.warriorHP < 33) 
       warriorFactor = 2;
 
-    var warrior = new PlayerCharacter(this, 250, 50, 'player', 1, 'Warrior', this.warriorHP, 15 * warriorFactor);
+    var warrior = new PlayerCharacter(this, 250, 50, 'player', 1, 'Warrior', this.warriorHP, 10 * warriorFactor);
     this.add.existing(warrior);
 
     var mageFactor = 1;
