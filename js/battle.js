@@ -29,11 +29,15 @@ class BattleScene extends Phaser.Scene {
     var mage = new PlayerCharacter(this, 250, 100, 'player', 4, 'Mage', this.mageHP, 20 * mageFactor);
     this.add.existing(mage);
 
-    var dragonblue = new Enemy(this, 50, 40, 'dragonblue', null, 'Dragon', 30, 10);
+    var dragonblue = new Enemy(this, 50, 40, 'dragonblue', null, 'Blue D.', 30, 10);
     this.add.existing(dragonblue);
 
-    var dragonorange = new Enemy(this, 50, 110, 'dragonorange', null, 'Dragon2', 30, 10);
+    var dragonorange = new Enemy(this, 50, 110, 'dragonorange', null, 'Orange D.', 30, 10);
 
+    var dragonwhite = new Enemy(this, 50, 40, 'dragonwhite', null, 'White D.', 40, 10);
+    this.add.existing(dragonwhite);
+
+    
     this.add.existing(dragonorange);
 
     this.heroes = [ warrior, mage ];
@@ -144,11 +148,11 @@ class UIScene extends Phaser.Scene {
     this.graphics.fillStyle(0x031f4c, 1);
     
     // rectangle 1
-    this.graphics.strokeRect(2, 150, 90, 100);
-    this.graphics.fillRect(2, 150, 90, 100);
+    this.graphics.strokeRect(2, 150, 110, 100);
+    this.graphics.fillRect(2, 150, 110, 100);
     // rectangle 2
-    this.graphics.strokeRect(95, 150, 90, 100);
-    this.graphics.fillRect(95, 150, 90, 100);
+    this.graphics.strokeRect(115, 150, 70, 100);
+    this.graphics.fillRect(115, 150, 70, 100);
     // rectangle 3
     this.graphics.strokeRect(188, 150, 130, 100);
     this.graphics.fillRect(188, 150, 130, 100);
@@ -157,7 +161,7 @@ class UIScene extends Phaser.Scene {
     this.menus = this.add.container();
 
     this.heroesMenu = new HeroesMenu(195, 153, this);
-    this.actionsMenu = new ActionsMenu(100, 153, this);
+    this.actionsMenu = new ActionsMenu(120, 153, this);
     this.enemiesMenu = new EnemiesMenu(8, 153, this);
 
     this.currentMenu = this.actionsMenu;

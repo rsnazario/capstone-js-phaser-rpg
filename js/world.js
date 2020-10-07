@@ -15,6 +15,8 @@ class BootScene extends Phaser.Scene {
     // enemies
     this.load.image('dragonblue', 'assets/dragonblue.png');
     this.load.image('dragonorange', 'assets/dragonorange.png');
+    this.load.image('dragonwhite', 'assets/dragonwhite.png');
+    this.load.image('dragonred', 'assets/dragonred.png');
   }
 
   create() {
