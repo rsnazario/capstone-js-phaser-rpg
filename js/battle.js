@@ -29,10 +29,10 @@ class BattleScene extends Phaser.Scene {
     var mage = new PlayerCharacter(this, 250, 100, 'player', 4, 'Mage', this.mageHP, 20 * mageFactor);
     this.add.existing(mage);
 
-    var dragonblue = new Enemy(this, 50, 40, 'dragonblue', null, 'Dragon', 30, 15);
+    var dragonblue = new Enemy(this, 50, 40, 'dragonblue', null, 'Dragon', 30, 10);
     this.add.existing(dragonblue);
 
-    var dragonorange = new Enemy(this, 50, 110, 'dragonorange', null, 'Dragon2', 30, 15);
+    var dragonorange = new Enemy(this, 50, 110, 'dragonorange', null, 'Dragon2', 30, 10);
 
     this.add.existing(dragonorange);
 
@@ -110,8 +110,8 @@ class BattleScene extends Phaser.Scene {
   }
 
   endBattle() {
-    this.warriorHP = this.heroes[0].hp + 10;
-    this.mageHP = this.heroes[1].hp + 10;
+    this.warriorHP = this.heroes[0].hp + 12;
+    this.mageHP = this.heroes[1].hp + 12;
 
     if (this.warriorHP > this.heroes[0].maxHP) 
       this.warriorHP = this.heroes[0].maxHP;
