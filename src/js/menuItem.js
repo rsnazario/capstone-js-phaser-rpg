@@ -12,6 +12,7 @@ export default class MenuItem extends Phaser.GameObjects.Text {
   }
 
   unitKilled() {
+    window.score += 10;
     this.active = false;
     this.visible = false;
   }

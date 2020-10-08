@@ -10,6 +10,7 @@ export default class BattleScene extends Phaser.Scene {
     // change backgroundColor\
     this.warriorHP = 130;
     this.mageHP = 80;
+    this.score = 0;
     this.cameras.main.setBackgroundColor('rgba(0, 200, 0, 0.5)');
     this.startBattle();
     this.sys.events.on('wake', this.startBattle, this);
@@ -37,18 +38,11 @@ export default class BattleScene extends Phaser.Scene {
 
   startBattle() {
     // player character ==> warrior
-    var warriorFactor = 1;
-    if (this.warriorHP < 40) 
-      warriorFactor = 2;
-
-    var warrior = new PlayerCharacter(this, 250, 50, 'player', 1, 'Warrior', this.warriorHP, 10 * warriorFactor);
+    var warrior = new PlayerCharacter(this, 250, 50, 'player', 1, 'Warrior', this.warriorHP, 10);
     this.add.existing(warrior);
 
-    var mageFactor = 1;
-    if (this.mageHP < 25) 
-      mageFactor = 2;
     // player character ==> mage
-    var mage = new PlayerCharacter(this, 250, 100, 'player', 4, 'Mage', this.mageHP, 20 * mageFactor);
+    var mage = new PlayerCharacter(this, 250, 100, 'player', 4, 'Mage', this.mageHP, 20);
     this.add.existing(mage); 
 
     this.enemies = this.generateRandomEnemies();
@@ -63,6 +57,10 @@ export default class BattleScene extends Phaser.Scene {
   }
 
   nextTurn() {
+
+    console.log('warrior HP: ' + this.heroes[0].hp);
+    console.log('mage hp: ' +this.heroes[1].hp);
+
     if (this.checkEndBattle()) {
       this.endBattle();
       return;
@@ -126,15 +124,21 @@ export default class BattleScene extends Phaser.Scene {
   }
 
   endBattle() {
-    this.warriorHP = this.heroes[0].hp + 12;
-    this.mageHP = this.heroes[1].hp + 12;
 
-    if (this.warriorHP > this.heroes[0].maxHP) 
+    if (this.warriorHP > 0 ) {
+      this.warriorHP = this.heroes[0].hp + 12;
+    }
+    if (this.mageHP > 0) {
+      this.mageHP = this.heroes[1].hp + 12;
+    }
+
+    if (this.warriorHP > this.heroes[0].maxHP) {
       this.warriorHP = this.heroes[0].maxHP;
-
-    if (this.mageHP > this.heroes[1].maxHP)
+    }
+    if (this.mageHP > this.heroes[1].maxHP) {
       this.mageHP = this.heroes[1].maxHP;
-    
+    }
+
     this.heroes.length = 0;
     this.enemies.length = 0;
     for (var i = 0; i < this.units.length; i++) {

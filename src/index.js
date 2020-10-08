@@ -28,3 +28,5 @@ var config = {
 };
 
 var game = new Phaser.Game(config);
+
+window.score = 0;
