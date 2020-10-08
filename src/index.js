@@ -1,3 +1,10 @@
+import Phaser from './phaser.min.js';
+import BootScene from './js/boot';
+import WorldScene from './js/world';
+import BattleScene from './js/battle';
+import UIScene from './js/ui';
+
+
 var config = {
   type: Phaser.AUTO,
   parent: 'content',
