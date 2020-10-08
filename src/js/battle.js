@@ -57,10 +57,6 @@ export default class BattleScene extends Phaser.Scene {
   }
 
   nextTurn() {
-
-    console.log('warrior HP: ' + this.heroes[0].hp);
-    console.log('mage hp: ' +this.heroes[1].hp);
-
     if (this.checkEndBattle()) {
       this.endBattle();
       return;
@@ -124,21 +120,18 @@ export default class BattleScene extends Phaser.Scene {
   }
 
   endBattle() {
-
     if (this.warriorHP > 0 ) {
       this.warriorHP = this.heroes[0].hp + 12;
     }
     if (this.mageHP > 0) {
       this.mageHP = this.heroes[1].hp + 12;
     }
-
     if (this.warriorHP > this.heroes[0].maxHP) {
       this.warriorHP = this.heroes[0].maxHP;
     }
     if (this.mageHP > this.heroes[1].maxHP) {
       this.mageHP = this.heroes[1].maxHP;
     }
-
     this.heroes.length = 0;
     this.enemies.length = 0;
     for (var i = 0; i < this.units.length; i++) {
