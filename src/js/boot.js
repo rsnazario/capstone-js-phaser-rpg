@@ -20,7 +20,7 @@ export default class BootScene extends Phaser.Scene {
   }
 
   create() {
+    this.scene.start('Game');    
     // this.scene.start('WorldScene');
-    this.scene.start('WorldScene');
   }
 };
