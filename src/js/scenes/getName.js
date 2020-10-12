@@ -4,8 +4,6 @@ export default class GetName extends Phaser.Scene {
   }
 
   create() {
-    console.log('getName Scene');
-
     this.add.text(10, 10, 'Enter your name: ', {
       font: '22px Courier', fill: '#ffffff'
     });

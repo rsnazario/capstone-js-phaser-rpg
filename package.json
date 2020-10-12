@@ -4,14 +4,15 @@
   "description": "Phaser Game - Turn Based RPG",
   "main": "index.js",
   "dependencies": {
+    "axios": "^0.20.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.2",
     "stylelint": "^13.3.3",
-    "stylelint-scss": "^3.17.2",
+    "stylelint-config-standard": "^20.0.0",
     "stylelint-csstree-validator": "^1.8.0",
-    "stylelint-config-standard": "^20.0.0"
+    "stylelint-scss": "^3.17.2"
   },
   "devDependencies": {
     "webpack": "^4.44.2",

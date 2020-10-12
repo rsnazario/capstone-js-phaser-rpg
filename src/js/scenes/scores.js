@@ -1,4 +1,5 @@
-import config from '../index';
+import config from '../../index';
+import scoreboard from '../api/scoreboard';
 
 export default class Scores extends Phaser.Scene {
   constructor() {
@@ -32,6 +33,11 @@ export default class Scores extends Phaser.Scene {
         fontFamily: 'Georgias, Times, serif'
       }
     ).setOrigin(0.5);
+
+    var result = scoreboard.getScore();
+    console.log('API Worked: ');
+    console.log(result);
+
 
     this.backButton.setInteractive();
     this.backButtonAction();

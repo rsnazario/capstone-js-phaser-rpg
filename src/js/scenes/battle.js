@@ -1,5 +1,5 @@
-import PlayerCharacter from './player';
-import Enemy from './enemy';
+import PlayerCharacter from '../entities/player';
+import Enemy from '../entities/enemy';
 
 export default class BattleScene extends Phaser.Scene {
   constructor() {
@@ -52,9 +52,6 @@ export default class BattleScene extends Phaser.Scene {
     this.heroes = [ warrior, mage ];
     this.units = this.heroes.concat(this.enemies);
     this.index = -1;
-
-    console.log('warriorHP : ' + this.warriorHP);
-    console.log('mageHP : ' + this.mageHP);
 
     this.scene.run("UIScene");
   }
@@ -141,7 +138,8 @@ export default class BattleScene extends Phaser.Scene {
 
     if (this.warriorHP <= 0 && this.mageHP <= 0) {
       console.log('Final Score: ' + window.score);
-      this.scene.start('Game');
+      this.scene.stop();
+      this.scene.start('GameOver');
     }
 
     this.heroes.length = 0;

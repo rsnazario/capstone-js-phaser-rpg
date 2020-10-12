@@ -1,4 +1,4 @@
-import config from './../index';
+import config from './../../index';
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -7,22 +7,20 @@ export default class Game extends Phaser.Scene {
 
   startButtonAction() {
     this.startButton.on('pointerdown', () => {
-      console.log('worked');
       this.scene.start('GetName');
     });
   }
 
   instructionsAction() {
     this.instructionsButton.on('pointerdown', () => {
-      console.log('instruction');
       this.scene.start('Instructions');
     })
   }
 
   scoresAction() {
     this.scoresButton.on('pointerdown', () => {
-      console.log('scores');
       this.scene.start('Scores');
+      // this.scene.start('GameOver');
     });
   }
 

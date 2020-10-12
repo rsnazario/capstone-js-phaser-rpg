@@ -1,12 +1,13 @@
 import Phaser from './phaser.min.js';
-import BootScene from './js/boot';
-import Game from './js/game';
-import GetName from './js/getName';
-import Instructions from './js/instructions';
-import WorldScene from './js/world';
-import BattleScene from './js/battle';
-import UIScene from './js/ui';
-import Scores from './js/scores';
+import BootScene from './js/scenes/boot';
+import Game from './js/scenes/game';
+import GetName from './js/scenes/getName';
+import Instructions from './js/scenes/instructions';
+import WorldScene from './js/scenes/world';
+import BattleScene from './js/scenes/battle';
+import UIScene from './js/scenes/ui';
+import Scores from './js/scenes/scores';
+import GameOver from './js/scenes/gameOver';
 
 var config = {
   type: Phaser.AUTO,
@@ -31,11 +32,13 @@ var config = {
     BattleScene,
     UIScene,
     Scores,
+    GameOver
   ]
 };
 
 var game = new Phaser.Game(config);
 
 window.score = 0;
+window.key = 't82Jd3rsSodrA4KcbQ65';
 
 export default config;

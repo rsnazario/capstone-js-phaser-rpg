@@ -1,4 +1,4 @@
-import config from '../index';
+import config from './../../index';
 
 export default class Instructions extends Phaser.Scene {
   constructor() {
@@ -34,27 +34,6 @@ export default class Instructions extends Phaser.Scene {
         wordWrap: {width: 260, useAdvancedWrap: true}
       }
     ).setOrigin(0.5, 0);
-
-    // this.add.text(
-    //   config.width / 2,
-    //   100,
-    //   'On Battle, Choose Action on Menu With Space Bar or Left Arrow Key', {
-    //     fill: '#ffffff',
-    //     fontSize: '20px',
-    //     fontFamily: 'Georgia, Times, serif'
-    //   }
-    // ).setOrigin(0.5);
-
-    // this.add.text(
-    //   config.width / 2,
-    //   120,
-    //   'Kill Dragons to Score Up. \nAfter a Win, Heroes are Healed. \nLow Life Means Double Damage', {
-    //     fill: '#ffffff',
-    //     fontSize: '20px',
-    //     fontFamily: 'Georgias, Times, serif'
-    //   }
-    // ).setOrigin(0.5);
-
 
     this.backButton = this.add.text(
       config.width / 2,
