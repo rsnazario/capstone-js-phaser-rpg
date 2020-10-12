@@ -1,4 +1,4 @@
-import config from '../../index';
+import game from '../../index';
 import scoreboard from '../api/scoreboard';
 
 export default class Scores extends Phaser.Scene {
@@ -15,7 +15,7 @@ export default class Scores extends Phaser.Scene {
   create() {
     this.cameras.main.setBackgroundColor('black');
     this.add.text(
-      config.width / 2,
+      game.config.width / 2,
       25,
       'Dragon Quest', {
         fill: '#ffffff',
@@ -25,8 +25,8 @@ export default class Scores extends Phaser.Scene {
     ).setOrigin(0.5);
 
     this.backButton = this.add.text(
-      config.width / 2,
-      config.height - 20,
+      game.config.width / 2,
+      game.config.height - 20,
       'Back', {
         fill: '#ffffff',
         fontSize: '24px',

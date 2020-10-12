@@ -3,8 +3,7 @@ export default class WorldScene extends Phaser.Scene {
     super('WorldScene');
   }
 
-  create()
-  {
+  create() {
       // create the map
       var map = this.make.tilemap({ key: 'map' });
 
@@ -68,7 +67,7 @@ export default class WorldScene extends Phaser.Scene {
       // spawning encounter zone:
       this.spawns = this.physics.add.group({ classType: Phaser.GameObjects.Zone });
 
-      for(var i = 0; i < 30; i++) {
+      for(var i = 0; i < 5; i++) {
         var x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
         var y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
         
@@ -80,6 +79,9 @@ export default class WorldScene extends Phaser.Scene {
 
       // returns from battle
       this.sys.events.on('wake', this.wake, this);
+
+      this.player.body.setVelocity(0);
+      this.wake();
   }
 
   onMeetEnemy(player, zone) {

@@ -1,4 +1,4 @@
-import config from './../../index';
+import game from './../../index';
 import scoreboard from './../api/scoreboard';
 
 export default class GameOver extends Phaser.Scene {
@@ -8,6 +8,7 @@ export default class GameOver extends Phaser.Scene {
 
   backButtonAction() {
     this.backButton.on('pointerdown', () => {
+      window.score = 0;
       this.scene.start('Game');
     });
   }
@@ -15,7 +16,7 @@ export default class GameOver extends Phaser.Scene {
   create() {
     this.cameras.main.setBackgroundColor('black');
     this.add.text(
-      config.width / 2,
+      game.config.width / 2,
       20,
       'Thanks for Playing', {
         fill: '#ffffff',
@@ -25,7 +26,7 @@ export default class GameOver extends Phaser.Scene {
     ).setOrigin(0.5);
 
     this.add.text(
-      config.width / 2,
+      game.config.width / 2,
       50,
       'Dragon Quest', {
         fill: '#ffffff',
@@ -35,7 +36,7 @@ export default class GameOver extends Phaser.Scene {
     ).setOrigin(0.5);
 
     this.add.text(
-      config.width / 2,
+      game.config.width / 2,
       100,
       'Your Score:', {
         fill: '#ffffff',
@@ -45,7 +46,7 @@ export default class GameOver extends Phaser.Scene {
     ).setOrigin(0.5);
 
     this.add.text(
-      config.width / 2,
+      game.config.width / 2,
       140,
       window.playerName + ': ' + window.score, {
         fill: '#ffffff',
@@ -55,8 +56,8 @@ export default class GameOver extends Phaser.Scene {
     ).setOrigin(0.5);
 
     this.backButton = this.add.text(
-      config.width / 2,
-      config.height - 20,
+      game.config.width / 2,
+      game.config.height - 20,
       'Back to Main Menu', {
         fill: '#ffffff',
         fontSize: '24px',
@@ -64,7 +65,7 @@ export default class GameOver extends Phaser.Scene {
       }
     ).setOrigin(0.5);
 
-    scoreboard( window.playerName, window.score );
+    // scoreboard.setScore(window.playerName, window.score);
 
     this.backButton.setInteractive();
     this.backButtonAction();

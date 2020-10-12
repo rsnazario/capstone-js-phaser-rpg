@@ -1,4 +1,4 @@
-import config from './../../index';
+import game from './../../index';
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -27,7 +27,7 @@ export default class Game extends Phaser.Scene {
   create() {
     this.cameras.main.setBackgroundColor('black');
     this.add.text(
-      config.width / 2,
+      game.config.width / 2,
       25,
       'Dragon Quest', {
         fill: '#ffffff',
@@ -37,7 +37,7 @@ export default class Game extends Phaser.Scene {
     ).setOrigin(0.5);
 
     this.startButton = this.add.text(
-      config.width / 2,
+      game.config.width / 2,
       100,
       'START GAME',
       24, {
@@ -48,7 +48,7 @@ export default class Game extends Phaser.Scene {
     ).setOrigin(0.5);
 
     this.instructionsButton  = this.add.text(
-      config.width / 2,
+      game.config.width / 2,
       130,
       'HOW TO PLAY',
       24, {
@@ -59,7 +59,7 @@ export default class Game extends Phaser.Scene {
     ).setOrigin(0.5);
 
     this.scoresButton = this.add.text(
-      config.width / 2,
+      game.config.width / 2,
       160,
       'LEADERBOARD',
       24, {

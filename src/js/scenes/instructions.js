@@ -1,4 +1,4 @@
-import config from './../../index';
+import game from './../../index';
 
 export default class Instructions extends Phaser.Scene {
   constructor() {
@@ -14,7 +14,7 @@ export default class Instructions extends Phaser.Scene {
   create() {
     this.cameras.main.setBackgroundColor('black');
     this.add.text(
-      config.width / 2,
+      game.config.width / 2,
       25,
       'Dragon Quest', {
         fill: '#ffffff',
@@ -24,7 +24,7 @@ export default class Instructions extends Phaser.Scene {
     ).setOrigin(0.5);
 
     this.add.text(
-      config.width / 2,
+      game.config.width / 2,
       60,
       'Move Around The World With Arrow Keys. \nOn Battle, Choose Action on Menu With Space Bar or Left Arrow Key. Kill Dragons to Score Up. \nAfter a Win, Heroes are Healed. Low Life Means Double Damage', {
         fill: '#ffffff',
@@ -36,8 +36,8 @@ export default class Instructions extends Phaser.Scene {
     ).setOrigin(0.5, 0);
 
     this.backButton = this.add.text(
-      config.width / 2,
-      config.height - 20,
+      game.config.width / 2,
+      game.config.height - 20,
       'Back', {
         fill: '#ffffff',
         fontSize: '24px',

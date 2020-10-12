@@ -41,4 +41,4 @@ var game = new Phaser.Game(config);
 window.score = 0;
 window.key = 't82Jd3rsSodrA4KcbQ65';
 
-export default config;
+export default game;

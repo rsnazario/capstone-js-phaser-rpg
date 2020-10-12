@@ -1,5 +1,6 @@
 import PlayerCharacter from '../entities/player';
 import Enemy from '../entities/enemy';
+import WorldScene from './world';
 
 export default class BattleScene extends Phaser.Scene {
   constructor() {
@@ -120,21 +121,22 @@ export default class BattleScene extends Phaser.Scene {
   }
 
   endBattle() {
-    if (this.warriorHP > 0 ) {
-      this.warriorHP = this.heroes[0].hp + 12;
+    if (this.heroes[0].hp > 0 ) {
+      this.heroes[0].hp += 12;
+      if (this.heroes[0].hp > this.heroes[0].maxHP) {
+        this.heroes[0].hp = this.heroes[0].maxHP;
+      }
     }
 
-    if (this.mageHP > 0) {
-      this.mageHP = this.heroes[1].hp + 12;
+    if (this.heroes[1].hp > 0) {
+      this.heroes[1].hp += 12;
+      if (this.heroes[1].hp > this.heroes[1].maxHP) {
+        this.heroes[1].hp = this.heroes[1].maxHP;
+      }  
     }
 
-    if (this.warriorHP > this.heroes[0].maxHP) {
-      this.warriorHP = this.heroes[0].maxHP;
-    }
-
-    if (this.mageHP > this.heroes[1].maxHP) {
-      this.mageHP = this.heroes[1].maxHP;
-    }
+    this.warriorHP = this.heroes[0].hp;
+    this.mageHP = this.heroes[1].hp;
 
     this.heroes.length = 0;
     this.enemies.length = 0;
@@ -143,16 +145,19 @@ export default class BattleScene extends Phaser.Scene {
       this.units[i].destroy();
     }
     this.units.length = 0;
-    
+
+    this.scene.sleep('UIScene');
+
     if (this.warriorHP <= 0 && this.mageHP <= 0) {
-      console.log('Final Score: ' + window.score);
-      this.scene.stop();
-      this.scene.start('GameOver');
-    } else {    
-      // sleep UI
-      this.scene.sleep('UIScene');
+      this.gameIsOver();
+    } else {
       // return WS
       this.scene.switch('WorldScene');
     }
+  }
+
+  gameIsOver() {
+    this.scene.stop('WorldScene');
+    this.scene.start('GameOver');
   }
 };
