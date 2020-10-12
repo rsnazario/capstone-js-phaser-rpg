@@ -35,9 +35,6 @@ export default class Scores extends Phaser.Scene {
     ).setOrigin(0.5);
 
     var result = scoreboard.getScore();
-    console.log('API Worked: ');
-    console.log(result);
-
 
     this.backButton.setInteractive();
     this.backButtonAction();

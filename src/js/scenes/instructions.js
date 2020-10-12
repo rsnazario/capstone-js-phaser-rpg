@@ -45,6 +45,8 @@ export default class Instructions extends Phaser.Scene {
       }
     ).setOrigin(0.5);
 
+    
+
     this.backButton.setInteractive();
     this.backButtonAction();
   }

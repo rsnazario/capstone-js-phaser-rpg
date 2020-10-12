@@ -136,21 +136,23 @@ export default class BattleScene extends Phaser.Scene {
       this.mageHP = this.heroes[1].maxHP;
     }
 
-    if (this.warriorHP <= 0 && this.mageHP <= 0) {
-      console.log('Final Score: ' + window.score);
-      this.scene.stop();
-      this.scene.start('GameOver');
-    }
-
     this.heroes.length = 0;
     this.enemies.length = 0;
+    
     for (var i = 0; i < this.units.length; i++) {
       this.units[i].destroy();
     }
     this.units.length = 0;
-    // sleep UI
-    this.scene.sleep('UIScene');
-    // return WS
-    this.scene.switch('WorldScene');
+    
+    if (this.warriorHP <= 0 && this.mageHP <= 0) {
+      console.log('Final Score: ' + window.score);
+      this.scene.stop();
+      this.scene.start('GameOver');
+    } else {    
+      // sleep UI
+      this.scene.sleep('UIScene');
+      // return WS
+      this.scene.switch('WorldScene');
+    }
   }
 };

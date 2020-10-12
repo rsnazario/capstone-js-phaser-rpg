@@ -1,4 +1,5 @@
 import config from './../../index';
+import scoreboard from './../api/scoreboard';
 
 export default class GameOver extends Phaser.Scene {
   constructor() {
@@ -62,6 +63,8 @@ export default class GameOver extends Phaser.Scene {
         fontFamily: 'Georgias, Times, serif'
       }
     ).setOrigin(0.5);
+
+    scoreboard( window.playerName, window.score );
 
     this.backButton.setInteractive();
     this.backButtonAction();
