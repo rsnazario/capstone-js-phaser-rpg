@@ -31,8 +31,5 @@ export default class GetName extends Phaser.Scene {
         this.scene.start('WorldScene');
       }
     });
-
-    // console.log(textEntry.text);
-  }
-  
+  } 
 }

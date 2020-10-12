@@ -15,12 +15,14 @@ export default class Game extends Phaser.Scene {
   instructionsAction() {
     this.instructionsButton.on('pointerdown', () => {
       console.log('instruction');
+      this.scene.start('Instructions');
     })
   }
 
   scoresAction() {
     this.scoresButton.on('pointerdown', () => {
       console.log('scores');
+      this.scene.start('Scores');
     });
   }
 

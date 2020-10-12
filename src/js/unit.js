@@ -37,6 +37,12 @@ export default class Unit extends Phaser.GameObjects.Sprite {
     this.hp -= damage;
     if (this.hp <= 0) {
       this.hp = 0;
+
+      if (this.type !== 'Warrior' && this.type !== 'Mage') {
+        window.score += 10;
+        console.log(window.score);
+      }
+
       this.menuItem.unitKilled();
       this.living = false;
       this.visible = false;

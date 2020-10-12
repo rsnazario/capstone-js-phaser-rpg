@@ -7,7 +7,6 @@ export default class BattleScene extends Phaser.Scene {
   }
 
   create() {
-    // change backgroundColor\
     this.warriorHP = 130;
     this.mageHP = 80;
     this.score = 0;
@@ -20,7 +19,7 @@ export default class BattleScene extends Phaser.Scene {
     var allEnemies = ['dragonblue', 'dragonorange', 'dragonwhite', 'dragonred'];
     var enemiesNames = ['Blue D.', 'Orange D.', 'White D.', 'Red D.'];
     var enemiesHPs = [24, 29, 60, 33];
-    var enemiesDamage = [25, 22, 18, 20];
+    var enemiesDamage = [250, 220, 180, 200];
 
     // for the first enemy:
     var firstIndex = Math.floor(Math.random() * allEnemies.length);
@@ -38,20 +37,24 @@ export default class BattleScene extends Phaser.Scene {
 
   startBattle() {
     // player character ==> warrior
-    var warrior = new PlayerCharacter(this, 250, 50, 'player', 1, 'Warrior', this.warriorHP, 10);
-    this.add.existing(warrior);
-
+    if (this.warriorHP > 0) {
+      var warrior = new PlayerCharacter(this, 250, 50, 'player', 1, 'Warrior', this.warriorHP, 10);
+      this.add.existing(warrior);
+    }
     // player character ==> mage
-    var mage = new PlayerCharacter(this, 250, 100, 'player', 4, 'Mage', this.mageHP, 20);
-    this.add.existing(mage); 
-
+    if (this.mageHP > 0) {
+      var mage = new PlayerCharacter(this, 250, 100, 'player', 4, 'Mage', this.mageHP, 20);
+      this.add.existing(mage); 
+    }
+    // enemies
     this.enemies = this.generateRandomEnemies();
 
     this.heroes = [ warrior, mage ];
-
     this.units = this.heroes.concat(this.enemies);
-
     this.index = -1;
+
+    console.log('warriorHP : ' + this.warriorHP);
+    console.log('mageHP : ' + this.mageHP);
 
     this.scene.run("UIScene");
   }
@@ -123,19 +126,27 @@ export default class BattleScene extends Phaser.Scene {
     if (this.warriorHP > 0 ) {
       this.warriorHP = this.heroes[0].hp + 12;
     }
+
     if (this.mageHP > 0) {
       this.mageHP = this.heroes[1].hp + 12;
     }
+
     if (this.warriorHP > this.heroes[0].maxHP) {
       this.warriorHP = this.heroes[0].maxHP;
     }
+
     if (this.mageHP > this.heroes[1].maxHP) {
       this.mageHP = this.heroes[1].maxHP;
     }
+
+    if (this.warriorHP <= 0 && this.mageHP <= 0) {
+      console.log('Final Score: ' + window.score);
+      this.scene.start('Game');
+    }
+
     this.heroes.length = 0;
     this.enemies.length = 0;
     for (var i = 0; i < this.units.length; i++) {
-      // link item
       this.units[i].destroy();
     }
     this.units.length = 0;
