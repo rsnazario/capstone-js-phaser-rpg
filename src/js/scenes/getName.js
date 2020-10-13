@@ -1,6 +1,14 @@
+import game from './../../index';
+
 export default class GetName extends Phaser.Scene {
   constructor() {
     super('GetName');
+  }
+
+  backButtonAction() {
+    this.backButton.on('pointerdown', () => {
+      this.scene.start('Game');
+    });
   }
 
   create() {
@@ -29,5 +37,20 @@ export default class GetName extends Phaser.Scene {
         this.scene.start('WorldScene');
       }
     });
+
+    this.backButton = this.add.text(
+      game.config.width / 2,
+      game.config.height - 20,
+      'Back', {
+        fill: '#ffffff',
+        fontSize: '24px',
+        fontFamily: 'Georgias, Times, serif'
+      }
+    ).setOrigin(0.5);
+
+    
+
+    this.backButton.setInteractive();
+    this.backButtonAction();
   } 
 }

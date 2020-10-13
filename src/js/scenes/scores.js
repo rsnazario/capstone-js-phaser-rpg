@@ -12,6 +12,23 @@ export default class Scores extends Phaser.Scene {
     })
   }
 
+  displayLeaders(list) {
+    for (let i = 0; i < 5; i++) {
+      if (i >= list.length) {
+        break;
+      }
+      this.add.text(
+        game.config.width / 2,
+        70 + 25 * i,
+        list[i].user + '   ' + list[i].score, {
+          fill: '#ffff00',
+          fontSize: '24px',
+          fontFamily: 'Georgias, Times, serif',
+        }
+      ).setOrigin(0.5);
+    }
+  }
+
   create() {
     this.cameras.main.setBackgroundColor('black');
     this.add.text(
@@ -34,7 +51,14 @@ export default class Scores extends Phaser.Scene {
       }
     ).setOrigin(0.5);
 
-    var result = scoreboard.getScore();
+    // var result = scoreboard.getScore();
+    scoreboard.getScore().then( (leaderboard) => {
+      const leaders = scoreboard.orderedScores(leaderboard);
+      this.displayLeaders(leaders);
+    }).catch(() => {
+      console.log('error');
+    })
+
 
     this.backButton.setInteractive();
     this.backButtonAction();

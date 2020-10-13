@@ -4,7 +4,6 @@ import axios from 'axios';
 const scoreboard = (() => {
 
   const getScore = () => new Promise((resolve, reject) => {
-    console.log('getScore');
     const url = `https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/${key}/scores`;
     axios.get(url).then((res) => {
       resolve(res.data.result);
@@ -12,6 +11,20 @@ const scoreboard = (() => {
       reject(error.message);
     });
   });
+
+  const orderedScores = (data) => {
+    const arr = [...data];
+    arr.sort(function(a, b) {
+      if (a.score > b.score) {
+        return -1;
+      }
+      if (b.score > a.score) {
+        return 1;
+      }
+      return 0;
+    });
+    return arr;
+  };
 
   const setScore = (user, score) => new Promise((resolve, reject) => {
     console.log('setScore');
@@ -26,6 +39,7 @@ const scoreboard = (() => {
 
   return {
     getScore,
+    orderedScores,
     setScore,
   };
 })();
