@@ -1,6 +1,5 @@
 import PlayerCharacter from '../entities/player';
 import Enemy from '../entities/enemy';
-import WorldScene from './world';
 import game from './../../index';
 
 export default class BattleScene extends Phaser.Scene {
@@ -31,8 +30,8 @@ export default class BattleScene extends Phaser.Scene {
   generateRandomEnemies() {
     var allEnemies = ['dragonblue', 'dragonorange', 'dragonwhite', 'dragonred'];
     var enemiesNames = ['Blue D.', 'Orange D.', 'White D.', 'Red D.'];
-    var enemiesHPs = [24, 29, 60, 33];
-    var enemiesDamage = [250, 220, 180, 200];
+    var enemiesHPs = [24, 29, 60, 39];
+    var enemiesDamage = [25, 22, 14, 20];
 
     // for the first enemy:
     var firstIndex = Math.floor(Math.random() * allEnemies.length);
@@ -51,12 +50,12 @@ export default class BattleScene extends Phaser.Scene {
   startBattle() {
     // player character ==> warrior
     if (this.warriorHP > 0) {
-      var warrior = new PlayerCharacter(this, 250, 50, 'player', 1, 'Warrior', this.warriorHP, 10);
+      var warrior = new PlayerCharacter(this, 250, 50, 'player', 1, 'Warrior', this.warriorHP, 12);
       this.add.existing(warrior);
     }
     // player character ==> mage
     if (this.mageHP > 0) {
-      var mage = new PlayerCharacter(this, 250, 100, 'player', 4, 'Mage', this.mageHP, 20);
+      var mage = new PlayerCharacter(this, 250, 100, 'player', 4, 'Mage', this.mageHP, 22);
       this.add.existing(mage); 
     }
     // enemies
