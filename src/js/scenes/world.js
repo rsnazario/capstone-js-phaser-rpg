@@ -8,20 +8,14 @@ export default class WorldScene extends Phaser.Scene {
   create() {
       // create the map
       var map = this.make.tilemap({ key: 'map' });
-
       // first parameter is the name of the tilemap in tiled
       var tiles = map.addTilesetImage('spritesheet', 'tiles');
-
       // creating the layers
       var grass = map.createStaticLayer('Grass', tiles, 0, 0);
       var obstacles = map.createStaticLayer('Obstacles', tiles, 0, 0);
-
       // make all tiles in obstacles collidable
-
       obstacles.setCollisionByExclusion([-1]);
-      
       // audios
-
       if (window.worldMusic === false) {
         window.bgMusic = false;
         window.worldMusic = true;
@@ -31,23 +25,20 @@ export default class WorldScene extends Phaser.Scene {
         game.battleMusic.stop();
       }
 
-
       this.player = this.physics.add.sprite(50, 100, 'player', 6);
-
       this.physics.world.bounds.width = map.widthInPixels;
       this.physics.world.bounds.height = map.heightInPixels;
       this.player.setCollideWorldBounds(true);
       this.physics.add.collider(this.player, obstacles);
+
       // iniciar movimento
       this.cursors = this.input.keyboard.createCursorKeys();
-      
       // camera
       this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
       this.cameras.main.startFollow(this.player);
       this.cameras.main.roundPixels = true;
 
       // create animations
-
       this.anims.create({
         key: 'left',
         frames: this.anims.generateFrameNumbers('player', { frames: [1, 7, 1, 13]}),

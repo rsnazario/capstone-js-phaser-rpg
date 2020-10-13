@@ -77,11 +77,9 @@ export default class Game extends Phaser.Scene {
     this.scoresButton.setInteractive();
     this.scoresAction();
 
-    
     if (window.bgMusic === false) {
       window.bgMusic = true;
       game.bgMusic.play();
-      console.log('game music working');
     } 
   }
 };
