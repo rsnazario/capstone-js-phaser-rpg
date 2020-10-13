@@ -1,3 +1,5 @@
+import game from './../../index';
+
 export default class WorldScene extends Phaser.Scene {
   constructor() {
     super('WorldScene');
@@ -18,6 +20,17 @@ export default class WorldScene extends Phaser.Scene {
 
       obstacles.setCollisionByExclusion([-1]);
       
+      // audios
+
+      if (window.worldMusic === false) {
+        window.bgMusic = false;
+        window.worldMusic = true;
+        window.battleMusic = false;
+        game.bgMusic.stop();
+        game.worldMusic.play();
+        game.battleMusic.stop();
+      }
+
 
       this.player = this.physics.add.sprite(50, 100, 'player', 6);
 
@@ -89,9 +102,6 @@ export default class WorldScene extends Phaser.Scene {
     zone.y = Phaser.Math.RND.between(0, this.physics.world.bounds.height)
 
     this.cameras.main.shake(150);
-    // this.cameras.main.flash(300);
-    // this.cameras.main.fade(50);
-
     this.scene.switch('BattleScene');
   }
 

@@ -15,6 +15,12 @@ export default class GameOver extends Phaser.Scene {
 
   create() {
     this.cameras.main.setBackgroundColor('black');
+
+    window.battleMusic = false;
+    window.bgMusic = true;
+    game.battleMusic.stop();
+    game.bgMusic.play();
+
     this.add.text(
       game.config.width / 2,
       20,
@@ -65,7 +71,7 @@ export default class GameOver extends Phaser.Scene {
       }
     ).setOrigin(0.5);
 
-    // scoreboard.setScore(window.playerName, window.score);
+    scoreboard.setScore(window.playerName, window.score);
 
     this.backButton.setInteractive();
     this.backButtonAction();

@@ -1,6 +1,7 @@
 import PlayerCharacter from '../entities/player';
 import Enemy from '../entities/enemy';
 import WorldScene from './world';
+import game from './../../index';
 
 export default class BattleScene extends Phaser.Scene {
   constructor() {
@@ -12,6 +13,17 @@ export default class BattleScene extends Phaser.Scene {
     this.mageHP = 80;
     this.score = 0;
     this.cameras.main.setBackgroundColor('rgba(0, 200, 0, 0.5)');
+
+
+    if (window.battleMusic === false) {
+      window.bgMusic = false;
+      window.worldMusic = false;
+      window.battleMusic = true;
+      game.bgMusic.stop();
+      game.worldMusic.stop();
+      game.battleMusic.play();
+    }
+
     this.startBattle();
     this.sys.events.on('wake', this.startBattle, this);
   }

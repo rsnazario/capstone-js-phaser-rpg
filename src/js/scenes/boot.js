@@ -1,3 +1,5 @@
+import game from './../../index';
+
 export default class BootScene extends Phaser.Scene {
   constructor() {
     super('BootScene');
@@ -17,10 +19,22 @@ export default class BootScene extends Phaser.Scene {
     this.load.image('dragonorange', 'assets/dragonorange.png');
     this.load.image('dragonwhite', 'assets/dragonwhite.png');
     this.load.image('dragonred', 'assets/dragonred.png');
+
+    // audios
+    this.load.audio('gameIntro', 'assets/audios/Intro.ogg');
+    this.load.audio('worldMusic', 'assets/audios/WorldMap.mp3');
+    this.load.audio('battleMusic', 'assets/audios/Battle.mp3');
   }
 
   create() {
-    this.scene.start('Game');    
-    // this.scene.start('WorldScene');
+    window.bgMusic = false;
+    window.worldMusic = false;
+    window.battleMusic = false;
+
+    game.battleMusic = this.sound.add('battleMusic', {loop: true});
+    game.worldMusic = this.sound.add('worldMusic', {loop: true});
+    game.bgMusic = this.sound.add('gameIntro', {loop: true});
+
+    this.scene.start('Game');
   }
 };
