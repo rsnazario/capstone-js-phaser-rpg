@@ -1,3 +1,4 @@
+import Phaser from '../../phaser.min';
 import MenuItem from './menuItem';
 
 export default class Menu extends Phaser.GameObjects.Container {
@@ -12,7 +13,7 @@ export default class Menu extends Phaser.GameObjects.Container {
   }
 
   addMenuItem(unit) {
-    var menuItem = new MenuItem(0, this.menuItems.length * 20, unit, this.scene);
+    const menuItem = new MenuItem(0, this.menuItems.length * 20, unit, this.scene);
     this.menuItems.push(menuItem);
     this.add(menuItem);
     return menuItem;
@@ -21,7 +22,7 @@ export default class Menu extends Phaser.GameObjects.Container {
   moveSelectionUp() {
     this.menuItems[this.menuItemIndex].deselect();
     do {
-      this.menuItemIndex--;
+      this.menuItemIndex -= 1;
       if (this.menuItemIndex < 0) {
         this.menuItemIndex = this.menuItems.length - 1;
       }
@@ -32,7 +33,7 @@ export default class Menu extends Phaser.GameObjects.Container {
   moveSelectionDown() {
     this.menuItems[this.menuItemIndex].deselect();
     do {
-      this.menuItemIndex++;
+      this.menuItemIndex += 1;
       if (this.menuItemIndex > this.menuItems.length - 1) {
         this.menuItemIndex = 0;
       }
@@ -47,13 +48,13 @@ export default class Menu extends Phaser.GameObjects.Container {
     }
     this.menuItems[this.menuItemIndex].deselect();
     this.menuItemIndex = index;
-    
+
     while (!this.menuItems[this.menuItemIndex].active) {
-      this.menuItemIndex++;
+      this.menuItemIndex += 1;
       if (this.menuItemIndex >= this.menuItems.length) {
         this.menuItemIndex = 0;
       }
-      if (this.menuItemIndex == index) {
+      if (this.menuItemIndex === index) {
         return;
       }
     }
@@ -69,7 +70,7 @@ export default class Menu extends Phaser.GameObjects.Container {
   }
 
   clear() {
-    for (var i = 0; i < this.menuItems.length; i++) {
+    for (let i = 0; i < this.menuItems.length; i += 1) {
       this.menuItems[i].destroy();
     }
     this.menuItems.length = 0;
@@ -78,10 +79,9 @@ export default class Menu extends Phaser.GameObjects.Container {
 
   remap(units) {
     this.clear();
-    for(var i = 0; i < units.length ; i++) {
-      var unit = units[i];
+    for (let i = 0; i < units.length; i += 1) {
+      const unit = units[i];
       unit.setMenuItem(this.addMenuItem(unit.type));
-      
     }
     this.menuItemIndex = 0;
   }

@@ -1,3 +1,4 @@
+import Phaser from '../../phaser.min';
 import HeroesMenu from '../menus/heroesMenu';
 import ActionsMenu from '../menus/actionsMenu';
 import EnemiesMenu from '../menus/enemiesMenu';
@@ -12,7 +13,7 @@ export default class UIScene extends Phaser.Scene {
     this.graphics = this.add.graphics();
     this.graphics.lineStyle(1, 0xffffff);
     this.graphics.fillStyle(0x031f4c, 1);
-    
+
     // rectangle 1
     this.graphics.strokeRect(2, 150, 110, 100);
     this.graphics.fillRect(2, 150, 110, 100);
@@ -65,12 +66,12 @@ export default class UIScene extends Phaser.Scene {
   }
 
   remapHeroes() {
-    var heroes = this.battleScene.heroes;
+    const { heroes } = this.battleScene;
     this.heroesMenu.remap(heroes);
   }
 
   remapEnemies() {
-    var enemies = this.battleScene.enemies;
+    const { enemies } = this.battleScene;
     this.enemiesMenu.remap(enemies);
   }
 
@@ -78,14 +79,9 @@ export default class UIScene extends Phaser.Scene {
     if (this.currentMenu && this.currentMenu.selected) {
       if (event.code === 'ArrowUp') {
         this.currentMenu.moveSelectionUp();
-      }
-      else if (event.code === 'ArrowDown') {
+      } else if (event.code === 'ArrowDown') {
         this.currentMenu.moveSelectionDown();
-      }
-      else if (event.code === 'ArrowRight' || event.code === 'Shift') {
-
-      }
-      else if (event.code === 'Space' || event.code === 'ArrowLeft') {
+      } else if (event.code === 'Space' || event.code === 'ArrowLeft') {
         this.currentMenu.confirm();
       }
     }
@@ -109,4 +105,4 @@ export default class UIScene extends Phaser.Scene {
     this.currentMenu = null;
     this.battleScene.receivePlayerSelection('attack', index);
   }
-};
+}

@@ -1,6 +1,9 @@
+/* eslint-disable import/no-cycle */
+
+import Phaser from '../../phaser.min';
 import PlayerCharacter from '../entities/player';
 import Enemy from '../entities/enemy';
-import game from './../../index';
+import game from '../../index';
 
 export default class BattleScene extends Phaser.Scene {
   constructor() {
@@ -28,53 +31,49 @@ export default class BattleScene extends Phaser.Scene {
   }
 
   generateRandomEnemies() {
-    var allEnemies = ['dragonblue', 'dragonorange', 'dragonwhite', 'dragonred'];
-    var enemiesNames = ['Blue D.', 'Orange D.', 'White D.', 'Red D.'];
-    var enemiesHPs = [24, 29, 60, 39];
-    var enemiesDamage = [25, 22, 14, 20];
+    const all = ['dragonblue', 'dragonorange', 'dragonwhite', 'dragonred'];
+    const names = ['Blue D.', 'Orange D.', 'White D.', 'Red D.'];
+    const HPs = [24, 29, 60, 39];
+    const dmg = [25, 22, 14, 20];
 
     // for the first enemy:
-    var firstIndex = Math.floor(Math.random() * allEnemies.length);
+    const one = Math.floor(Math.random() * all.length);
 
-    var firstEnemy = new Enemy(this, 50, 40, allEnemies[firstIndex], null, enemiesNames[firstIndex], enemiesHPs[firstIndex], enemiesDamage[firstIndex]);
-    this.add.existing(firstEnemy);
+    const fstEnemy = new Enemy(this, 50, 40, all[one], null, names[one], HPs[one], dmg[one]);
+    this.add.existing(fstEnemy);
 
     // for the second enemy:
-    var secondIndex = Math.floor(Math.random() * allEnemies.length);
-    var secondEnemy = new Enemy(this, 50, 110, allEnemies[secondIndex], null, enemiesNames[secondIndex], enemiesHPs[secondIndex], enemiesDamage[secondIndex]);
-    this.add.existing(secondEnemy);
+    const two = Math.floor(Math.random() * all.length);
+    const secEnemy = new Enemy(this, 50, 110, all[two], null, names[two], HPs[two], dmg[two]);
+    this.add.existing(secEnemy);
 
-    return [firstEnemy, secondEnemy];
+    return [fstEnemy, secEnemy];
   }
 
   startBattle() {
     // player character ==> warrior
-    if (this.warriorHP > 0) {
-      var warrior = new PlayerCharacter(this, 250, 50, 'player', 1, 'Warrior', this.warriorHP, 12);
-      this.add.existing(warrior);
-    }
+    const warrior = new PlayerCharacter(this, 250, 50, 'player', 1, 'Warrior', this.warriorHP, 12);
+    this.add.existing(warrior);
     // player character ==> mage
-    if (this.mageHP > 0) {
-      var mage = new PlayerCharacter(this, 250, 100, 'player', 4, 'Mage', this.mageHP, 22);
-      this.add.existing(mage); 
-    }
+    const mage = new PlayerCharacter(this, 250, 100, 'player', 4, 'Mage', this.mageHP, 22);
+    this.add.existing(mage);
     // enemies
     this.enemies = this.generateRandomEnemies();
 
-    this.heroes = [ warrior, mage ];
+    this.heroes = [warrior, mage];
     this.units = this.heroes.concat(this.enemies);
     this.index = -1;
 
-    this.scene.run("UIScene");
+    this.scene.run('UIScene');
   }
 
   nextTurn() {
     if (this.checkEndBattle()) {
       this.endBattle();
       return;
-    };
+    }
     do {
-      this.index++;
+      this.index += 1;
       // if there are no more units, start again from 1st one
       if (this.index >= this.units.length) {
         this.index = 0;
@@ -86,22 +85,22 @@ export default class BattleScene extends Phaser.Scene {
       this.events.emit('PlayerSelect', this.index);
     } else {
       // random index for attacking
-      var r;
+      let r;
       do {
         r = Math.floor(Math.random() * this.heroes.length);
-      } while (!this.heroes[r].living)
+      } while (!this.heroes[r].living);
       // call attack function with enemy attacking random chosen hero to attack
       this.units[this.index].attack(this.heroes[r]);
       // add timer for next turn
-      this.time.addEvent( {delay: 3000, callback: this.nextTurn, callbackScope: this});
+      this.time.addEvent({ delay: 3000, callback: this.nextTurn, callbackScope: this });
     }
   }
 
   receivePlayerSelection(action, target) {
     if (action === 'attack') {
-      this.units[this.index].attack(this.enemies[target]);;
+      this.units[this.index].attack(this.enemies[target]);
     }
-    this.time.addEvent({delay: 3000, callback: this.nextTurn, callbackScope: this});
+    this.time.addEvent({ delay: 3000, callback: this.nextTurn, callbackScope: this });
   }
 
   exitBattle() {
@@ -111,28 +110,26 @@ export default class BattleScene extends Phaser.Scene {
 
   wake() {
     this.scene.restart('UIScene');
-    this.time.addEvent( {delay: 5000, callback: this.exitBattle, callbackScope: this})  
+    this.time.addEvent({ delay: 5000, callback: this.exitBattle, callbackScope: this });
   }
 
   checkEndBattle() {
-    var victory = true;
-    var gameOver = true;
+    let victory = true;
+    let gameOver = true;
 
-    for (var i = 0; i < this.enemies.length; i++) {
-      if (this.enemies[i].living)
-        victory = false;
+    for (let i = 0; i < this.enemies.length; i += 1) {
+      if (this.enemies[i].living) victory = false;
     }
 
-    for(var i = 0; i < this.heroes.length; i++ ) {
-      if (this.heroes[i].living) 
-        gameOver = false;
+    for (let i = 0; i < this.heroes.length; i += 1) {
+      if (this.heroes[i].living) { gameOver = false; }
     }
 
     return victory || gameOver;
   }
 
   endBattle() {
-    if (this.heroes[0].hp > 0 ) {
+    if (this.heroes[0].hp > 0) {
       this.heroes[0].hp += 12;
       if (this.heroes[0].hp > this.heroes[0].maxHP) {
         this.heroes[0].hp = this.heroes[0].maxHP;
@@ -143,7 +140,7 @@ export default class BattleScene extends Phaser.Scene {
       this.heroes[1].hp += 12;
       if (this.heroes[1].hp > this.heroes[1].maxHP) {
         this.heroes[1].hp = this.heroes[1].maxHP;
-      }  
+      }
     }
 
     this.warriorHP = this.heroes[0].hp;
@@ -151,8 +148,8 @@ export default class BattleScene extends Phaser.Scene {
 
     this.heroes.length = 0;
     this.enemies.length = 0;
-    
-    for (var i = 0; i < this.units.length; i++) {
+
+    for (let i = 0; i < this.units.length; i += 1) {
       this.units[i].destroy();
     }
     this.units.length = 0;
@@ -171,4 +168,4 @@ export default class BattleScene extends Phaser.Scene {
     this.scene.stop('WorldScene');
     this.scene.start('GameOver');
   }
-};
+}

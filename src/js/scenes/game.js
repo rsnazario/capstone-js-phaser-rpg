@@ -1,4 +1,7 @@
-import game from './../../index';
+/* eslint-disable import/no-cycle */
+
+import Phaser from '../../phaser.min';
+import game from '../../index';
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -14,7 +17,7 @@ export default class Game extends Phaser.Scene {
   instructionsAction() {
     this.instructionsButton.on('pointerdown', () => {
       this.scene.start('Instructions');
-    })
+    });
   }
 
   scoresAction() {
@@ -32,7 +35,7 @@ export default class Game extends Phaser.Scene {
         fill: '#ffffff',
         fontSize: '32px',
         fontFamily: 'Georgias, Times, serif',
-      }
+      },
     ).setOrigin(0.5);
 
     this.startButton = this.add.text(
@@ -43,10 +46,10 @@ export default class Game extends Phaser.Scene {
         fill: '#ffffff',
         fontSize: '26px',
         fontFamily: 'Georgias, Times, serif',
-      }
+      },
     ).setOrigin(0.5);
 
-    this.instructionsButton  = this.add.text(
+    this.instructionsButton = this.add.text(
       game.config.width / 2,
       130,
       'HOW TO PLAY',
@@ -54,7 +57,7 @@ export default class Game extends Phaser.Scene {
         fill: '#ffffff',
         fontSize: '26px',
         fontFamily: 'Georgias, Times, serif',
-      }
+      },
     ).setOrigin(0.5);
 
     this.scoresButton = this.add.text(
@@ -64,8 +67,8 @@ export default class Game extends Phaser.Scene {
       24, {
         fill: '#ffffff',
         fontSize: '26px',
-        fontFamily: 'Georgias, Times, serif'
-      }
+        fontFamily: 'Georgias, Times, serif',
+      },
     ).setOrigin(0.5);
 
     this.startButton.setInteractive();
@@ -80,6 +83,6 @@ export default class Game extends Phaser.Scene {
     if (window.bgMusic === false) {
       window.bgMusic = true;
       game.bgMusic.play();
-    } 
+    }
   }
-};
+}

@@ -1,8 +1,8 @@
-const key = 't82Jd3rsSodrA4KcbQ65'
 import axios from 'axios';
 
-const scoreboard = (() => {
+const key = 't82Jd3rsSodrA4KcbQ65';
 
+const scoreboard = (() => {
   const getScore = () => new Promise((resolve, reject) => {
     const url = `https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/${key}/scores`;
     axios.get(url).then((res) => {
@@ -14,7 +14,7 @@ const scoreboard = (() => {
 
   const orderedScores = (data) => {
     const arr = [...data];
-    arr.sort(function(a, b) {
+    arr.sort((a, b) => {
       if (a.score > b.score) {
         return -1;
       }
@@ -27,7 +27,6 @@ const scoreboard = (() => {
   };
 
   const setScore = (user, score) => new Promise((resolve, reject) => {
-    console.log('setScore');
     const url = `https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/${key}/scores/`;
     axios.post(url, { user, score }).then((res) => {
       resolve(res.data.result);

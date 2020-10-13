@@ -1,3 +1,5 @@
+import Phaser from '../../phaser.min';
+
 export default class Unit extends Phaser.GameObjects.Sprite {
   constructor(scene, x, y, texture, frame, type, hp, damage, scale) {
     super(scene, x, y, texture, frame);
@@ -15,7 +17,7 @@ export default class Unit extends Phaser.GameObjects.Sprite {
 
     this.living = true;
     this.menuItem = null;
-  };
+  }
 
   setMenuItem(item) {
     this.menuItem = item;
@@ -24,14 +26,12 @@ export default class Unit extends Phaser.GameObjects.Sprite {
   attack(target) {
     if ((this.hp <= 40) && (this.type === 'Warrior' || this.type === 'Mage')) {
       target.takeDamage(this.damage * 2);
-      this.scene.events.emit('Message', this.type + ' Attacks ' + target.type + ' for ' + this.damage*2 + ' damage');
-    }
-    else {
+      this.scene.events.emit('Message', `${this.type} Attacks ${target.type} for ${this.damage * 2} damage`);
+    } else {
       target.takeDamage(this.damage);
-      this.scene.events.emit('Message', this.type + ' Attacks ' + target.type + ' for ' + this.damage + ' damage');
+      this.scene.events.emit('Message', `${this.type} Attacks ${target.type} for ${this.damage} damage`);
     }
-    
-  };
+  }
 
   takeDamage(damage) {
     this.hp -= damage;
@@ -40,7 +40,6 @@ export default class Unit extends Phaser.GameObjects.Sprite {
 
       if (this.type !== 'Warrior' && this.type !== 'Mage') {
         window.score += 10;
-        console.log(window.score);
       }
 
       this.menuItem.unitKilled();

@@ -1,4 +1,7 @@
-import game from './../../index';
+/* eslint-disable import/no-cycle */
+
+import Phaser from '../../phaser.min';
+import game from '../../index';
 
 export default class GetName extends Phaser.Scene {
   constructor() {
@@ -13,20 +16,19 @@ export default class GetName extends Phaser.Scene {
 
   create() {
     this.add.text(10, 10, 'Enter your name: ', {
-      font: '22px Courier', fill: '#ffffff'
+      font: '22px Courier', fill: '#ffffff',
     });
 
     this.text = this.add.text(10, 50, '', {
-      font: '22px Courier', fill: '#ffff00'
+      font: '22px Courier', fill: '#ffff00',
     });
 
-    var textEntry = '';
+    let textEntry = '';
 
     this.input.keyboard.on('keydown', (event) => {
       if (event.keyCode === 8 && textEntry.length > 0) {
         textEntry = textEntry.substr(0, textEntry.length - 1);
-      }
-      else if (event.keyCode === 32 || (event.keyCode >= 48 && event.keyCode < 106)) {
+      } else if (event.keyCode === 32 || (event.keyCode >= 48 && event.keyCode < 106)) {
         if (textEntry.length <= 15) {
           textEntry += event.key;
         }
@@ -44,13 +46,12 @@ export default class GetName extends Phaser.Scene {
       'Back', {
         fill: '#ffffff',
         fontSize: '24px',
-        fontFamily: 'Georgias, Times, serif'
-      }
+        fontFamily: 'Georgias, Times, serif',
+      },
     ).setOrigin(0.5);
 
-    
 
     this.backButton.setInteractive();
     this.backButtonAction();
-  } 
+  }
 }

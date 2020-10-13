@@ -1,5 +1,8 @@
-import game from './../../index';
-import scoreboard from './../api/scoreboard';
+/* eslint-disable import/no-cycle */
+
+import Phaser from '../../phaser.min';
+import game from '../../index';
+import scoreboard from '../api/scoreboard';
 
 export default class GameOver extends Phaser.Scene {
   constructor() {
@@ -28,7 +31,7 @@ export default class GameOver extends Phaser.Scene {
         fill: '#ffffff',
         fontSize: '32px',
         fontFamily: 'Georgias, Times, serif',
-      }
+      },
     ).setOrigin(0.5);
 
     this.add.text(
@@ -38,7 +41,7 @@ export default class GameOver extends Phaser.Scene {
         fill: '#ffffff',
         fontSize: '32px',
         fontFamily: 'Georgias, Times, serif',
-      }
+      },
     ).setOrigin(0.5);
 
     this.add.text(
@@ -47,18 +50,18 @@ export default class GameOver extends Phaser.Scene {
       'Your Score:', {
         fill: '#ffffff',
         fontSize: '24px',
-        fontFamily: 'Georgias, Times, serif'
-      }
+        fontFamily: 'Georgias, Times, serif',
+      },
     ).setOrigin(0.5);
 
     this.add.text(
       game.config.width / 2,
       140,
-      window.playerName + ': ' + window.score, {
+      `${window.playerName}: ${window.score}`, {
         fill: '#ffffff',
         fontSize: '24px',
         fontFamily: 'Georgias, Times, serif',
-      }
+      },
     ).setOrigin(0.5);
 
     this.backButton = this.add.text(
@@ -67,8 +70,8 @@ export default class GameOver extends Phaser.Scene {
       'Back to Main Menu', {
         fill: '#ffffff',
         fontSize: '24px',
-        fontFamily: 'Georgias, Times, serif'
-      }
+        fontFamily: 'Georgias, Times, serif',
+      },
     ).setOrigin(0.5);
 
     scoreboard.setScore(window.playerName, window.score);

@@ -1,4 +1,7 @@
-import game from './../../index';
+/* eslint-disable import/no-cycle */
+
+import Phaser from '../../phaser.min';
+import game from '../../index';
 
 export default class Instructions extends Phaser.Scene {
   constructor() {
@@ -20,7 +23,7 @@ export default class Instructions extends Phaser.Scene {
         fill: '#ffffff',
         fontSize: '32px',
         fontFamily: 'Georgias, Times, serif',
-      }
+      },
     ).setOrigin(0.5);
 
     this.add.text(
@@ -31,8 +34,8 @@ export default class Instructions extends Phaser.Scene {
         fontSize: '16px',
         fontFamily: 'Georgias, Times, serif',
         align: 'center',
-        wordWrap: {width: 260, useAdvancedWrap: true}
-      }
+        wordWrap: { width: 260, useAdvancedWrap: true },
+      },
     ).setOrigin(0.5, 0);
 
     this.backButton = this.add.text(
@@ -41,11 +44,10 @@ export default class Instructions extends Phaser.Scene {
       'Back', {
         fill: '#ffffff',
         fontSize: '24px',
-        fontFamily: 'Georgias, Times, serif'
-      }
+        fontFamily: 'Georgias, Times, serif',
+      },
     ).setOrigin(0.5);
 
-    
 
     this.backButton.setInteractive();
     this.backButtonAction();

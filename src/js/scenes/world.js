@@ -1,4 +1,7 @@
-import game from './../../index';
+/* eslint-disable import/no-cycle */
+
+import Phaser from '../../phaser.min';
+import game from '../../index';
 
 export default class WorldScene extends Phaser.Scene {
   constructor() {
@@ -6,97 +9,88 @@ export default class WorldScene extends Phaser.Scene {
   }
 
   create() {
-      // create the map
-      var map = this.make.tilemap({ key: 'map' });
-      // first parameter is the name of the tilemap in tiled
-      var tiles = map.addTilesetImage('spritesheet', 'tiles');
-      // creating the layers
-      var grass = map.createStaticLayer('Grass', tiles, 0, 0);
-      var obstacles = map.createStaticLayer('Obstacles', tiles, 0, 0);
-      // make all tiles in obstacles collidable
-      obstacles.setCollisionByExclusion([-1]);
-      // audios
-      if (window.worldMusic === false) {
-        window.bgMusic = false;
-        window.worldMusic = true;
-        window.battleMusic = false;
-        game.bgMusic.stop();
-        game.worldMusic.play();
-        game.battleMusic.stop();
-      }
+    // create the map
+    const map = this.make.tilemap({ key: 'map' });
+    // first parameter is the name of the tilemap in tiled
+    const tiles = map.addTilesetImage('spritesheet', 'tiles');
+    // creating the layers
+    map.createStaticLayer('Grass', tiles, 0, 0);
+    const obstacles = map.createStaticLayer('Obstacles', tiles, 0, 0);
+    // make all tiles in obstacles collidable
+    obstacles.setCollisionByExclusion([-1]);
 
-      this.player = this.physics.add.sprite(50, 100, 'player', 6);
-      this.physics.world.bounds.width = map.widthInPixels;
-      this.physics.world.bounds.height = map.heightInPixels;
-      this.player.setCollideWorldBounds(true);
-      this.physics.add.collider(this.player, obstacles);
+    this.player = this.physics.add.sprite(50, 100, 'player', 6);
+    this.physics.world.bounds.width = map.widthInPixels;
+    this.physics.world.bounds.height = map.heightInPixels;
+    this.player.setCollideWorldBounds(true);
+    this.physics.add.collider(this.player, obstacles);
 
-      // iniciar movimento
-      this.cursors = this.input.keyboard.createCursorKeys();
-      // camera
-      this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-      this.cameras.main.startFollow(this.player);
-      this.cameras.main.roundPixels = true;
+    // iniciar movimento
+    this.cursors = this.input.keyboard.createCursorKeys();
+    // camera
+    this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+    this.cameras.main.startFollow(this.player);
+    this.cameras.main.roundPixels = true;
 
-      // create animations
-      this.anims.create({
-        key: 'left',
-        frames: this.anims.generateFrameNumbers('player', { frames: [1, 7, 1, 13]}),
-        frameRate: 10,
-        repeat: -1
-      });
+    // create animations
+    this.anims.create({
+      key: 'left',
+      frames: this.anims.generateFrameNumbers('player', { frames: [1, 7, 1, 13] }),
+      frameRate: 10,
+      repeat: -1,
+    });
 
-      this.anims.create({
-        key: 'right',
-        frames: this.anims.generateFrameNumbers('player', { frames: [1, 7, 1, 13]}),
-        frameRate: 10, 
-        repeat: -1
-      });
+    this.anims.create({
+      key: 'right',
+      frames: this.anims.generateFrameNumbers('player', { frames: [1, 7, 1, 13] }),
+      frameRate: 10,
+      repeat: -1,
+    });
 
-      this.anims.create({
-        key: 'up',
-        frames: this.anims.generateFrameNumbers('player', { frames: [2, 8, 2, 14]}),
-        frameRate: 10,
-        repeat: -1
-      });
+    this.anims.create({
+      key: 'up',
+      frames: this.anims.generateFrameNumbers('player', { frames: [2, 8, 2, 14] }),
+      frameRate: 10,
+      repeat: -1,
+    });
 
-      this.anims.create({
-        key: 'down',
-        frames: this.anims.generateFrameNumbers('player', { frames: [0, 6, 0, 12]}),
-        frameRate: 10,
-        repeat: -1
-      });
+    this.anims.create({
+      key: 'down',
+      frames: this.anims.generateFrameNumbers('player', { frames: [0, 6, 0, 12] }),
+      frameRate: 10,
+      repeat: -1,
+    });
 
 
-      // spawning encounter zone:
-      this.spawns = this.physics.add.group({ classType: Phaser.GameObjects.Zone });
+    // spawning encounter zone:
+    this.spawns = this.physics.add.group({ classType: Phaser.GameObjects.Zone });
 
-      for(var i = 0; i < 5; i++) {
-        var x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
-        var y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
-        
-        // parameters --> posX, posY, width, height
-        this.spawns.create(x, y, 20, 20);
-      }
+    for (let i = 0; i < 40; i += 1) {
+      const x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
+      const y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
 
-      this.physics.add.overlap(this.player, this.spawns, this.onMeetEnemy, false, this);
+      // parameters --> posX, posY, width, height
+      this.spawns.create(x, y, 20, 20);
+    }
 
-      // returns from battle
-      this.sys.events.on('wake', this.wake, this);
+    this.physics.add.overlap(this.player, this.spawns, this.onMeetEnemy, false, this);
 
-      this.player.body.setVelocity(0);
-      this.wake();
+    // returns from battle
+    this.sys.events.on('wake', this.wake, this);
+
+    this.player.body.setVelocity(0);
+    this.wake();
   }
 
   onMeetEnemy(player, zone) {
     zone.x = Phaser.Math.RND.between(0, this.physics.world.bounds.width);
-    zone.y = Phaser.Math.RND.between(0, this.physics.world.bounds.height)
+    zone.y = Phaser.Math.RND.between(0, this.physics.world.bounds.height);
 
     this.cameras.main.shake(150);
     this.scene.switch('BattleScene');
   }
 
-  update(time, delta) {
+  update() {
     this.player.body.setVelocity(0);
 
     if (this.cursors.left.isDown) {
@@ -104,7 +98,7 @@ export default class WorldScene extends Phaser.Scene {
     } else if (this.cursors.right.isDown) {
       this.player.setVelocityX(80);
     }
-    
+
     if (this.cursors.up.isDown) {
       this.player.setVelocityY(-80);
     } else if (this.cursors.down.isDown) {
@@ -125,11 +119,20 @@ export default class WorldScene extends Phaser.Scene {
       this.player.anims.stop();
     }
   }
-  
+
   wake() {
     this.cursors.left.reset();
     this.cursors.right.reset();
     this.cursors.up.reset();
     this.cursors.down.reset();
+
+    if (window.worldMusic === false) {
+      window.bgMusic = false;
+      window.worldMusic = true;
+      window.battleMusic = false;
+      game.bgMusic.stop();
+      game.worldMusic.play();
+      game.battleMusic.stop();
+    }
   }
-};
+}
