@@ -126,13 +126,11 @@ export default class WorldScene extends Phaser.Scene {
     this.cursors.up.reset();
     this.cursors.down.reset();
 
-    if (window.worldMusic === false) {
-      window.bgMusic = false;
-      window.worldMusic = true;
-      window.battleMusic = false;
-      game.bgMusic.stop();
-      game.worldMusic.play();
-      game.battleMusic.stop();
-    }
+    window.bgMusic = false;
+    window.worldMusic = true;
+    window.battleMusic = false;
+    game.bgMusic.stop();
+    game.worldMusic.play();
+    game.battleMusic.stop();
   }
 }

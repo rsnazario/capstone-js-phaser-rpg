@@ -15,17 +15,6 @@ export default class BattleScene extends Phaser.Scene {
     this.mageHP = 80;
     this.score = 0;
     this.cameras.main.setBackgroundColor('rgba(0, 200, 0, 0.5)');
-
-
-    if (window.battleMusic === false) {
-      window.bgMusic = false;
-      window.worldMusic = false;
-      window.battleMusic = true;
-      game.bgMusic.stop();
-      game.worldMusic.stop();
-      game.battleMusic.play();
-    }
-
     this.startBattle();
     this.sys.events.on('wake', this.startBattle, this);
   }
@@ -51,16 +40,31 @@ export default class BattleScene extends Phaser.Scene {
   }
 
   startBattle() {
+
+    window.bgMusic = false;
+    window.worldMusic = false;
+    window.battleMusic = true;
+    game.bgMusic.stop();
+    game.worldMusic.stop();
+    game.battleMusic.play();
+
+    this.heroes = [];
     // player character ==> warrior
-    const warrior = new PlayerCharacter(this, 250, 50, 'player', 1, 'Warrior', this.warriorHP, 12);
-    this.add.existing(warrior);
+    if (this.warriorHP > 0) {
+      const warrior = new PlayerCharacter(this, 250, 50, 'player', 1, 'Warrior', this.warriorHP, 12);
+      this.add.existing(warrior);
+      this.heroes = this.heroes.concat(warrior);
+    }
     // player character ==> mage
-    const mage = new PlayerCharacter(this, 250, 100, 'player', 4, 'Mage', this.mageHP, 22);
-    this.add.existing(mage);
+    if (this.mageHP > 0) {
+      const mage = new PlayerCharacter(this, 250, 100, 'player', 4, 'Mage', this.mageHP, 22);
+      this.add.existing(mage);
+      this.heroes = this.heroes.concat(mage);
+    }
+
     // enemies
     this.enemies = this.generateRandomEnemies();
 
-    this.heroes = [warrior, mage];
     this.units = this.heroes.concat(this.enemies);
     this.index = -1;
 
@@ -129,22 +133,36 @@ export default class BattleScene extends Phaser.Scene {
   }
 
   endBattle() {
-    if (this.heroes[0].hp > 0) {
-      this.heroes[0].hp += 12;
-      if (this.heroes[0].hp > this.heroes[0].maxHP) {
-        this.heroes[0].hp = this.heroes[0].maxHP;
+    if (this.heroes.length === 2) {
+      if (this.heroes[0].hp > 0) {
+        this.heroes[0].hp += 12;
+        if (this.heroes[0].hp > this.heroes[0].maxHP) {
+          this.heroes[0].hp = this.heroes[0].maxHP;
+        }
+      }
+
+      if (this.heroes[1].hp > 0) {
+        this.heroes[1].hp += 12;
+        if (this.heroes[1].hp > this.heroes[1].maxHP) {
+          this.heroes[1].hp = this.heroes[1].maxHP;
+        }
+      }
+      this.warriorHP = this.heroes[0].hp;
+      this.mageHP = this.heroes[1].hp;
+
+    } else if (this.heroes.length === 1 && this.heroes[0].hp > 0) {  //heroes.length == 1
+      if (this.heroes[0].type === 'Warrior') {
+        this.warriorHP = this.heroes[0].hp + 12;
+      } else if (this.heroes[0].type === 'Mage') {
+        this.mageHP = this.heroes[0].hp + 12;
+      }
+    } else if (this.heroes.length === 1 && this.heroes[0].hp <= 0) {
+      if (this.heroes[0].type === 'Warrior') {
+        this.warriorHP = 0;
+      } else {
+        this.mageHP = 0;
       }
     }
-
-    if (this.heroes[1].hp > 0) {
-      this.heroes[1].hp += 12;
-      if (this.heroes[1].hp > this.heroes[1].maxHP) {
-        this.heroes[1].hp = this.heroes[1].maxHP;
-      }
-    }
-
-    this.warriorHP = this.heroes[0].hp;
-    this.mageHP = this.heroes[1].hp;
 
     this.heroes.length = 0;
     this.enemies.length = 0;

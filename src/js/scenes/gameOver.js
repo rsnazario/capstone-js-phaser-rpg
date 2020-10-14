@@ -19,8 +19,10 @@ export default class GameOver extends Phaser.Scene {
   create() {
     this.cameras.main.setBackgroundColor('black');
 
+    window.worldMusic = false;
     window.battleMusic = false;
     window.bgMusic = true;
+    game.worldMusic.stop();
     game.battleMusic.stop();
     game.bgMusic.play();
 
