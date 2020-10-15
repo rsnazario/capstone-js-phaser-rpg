@@ -3,7 +3,11 @@ A RPG Turn Based Game Build Using the Phaser Framework
 
 ## Screenshots
 
-![]()
+![](docs/mainscreen.png)
+<br>
+![](docs/worldmap.png)
+<br>
+![](docs/battle.png)
 
 ## Online Version
  [Live Demo ](https://agitated-rosalind-b151a5.netlify.app/)
@@ -66,7 +70,7 @@ Now, you can just open your *Visual Studio Code* and click on `Go Live` if you h
 ### Overview
 The goal of the game is to kill as much dragons as possible while playing this Turn Based Role Playing Game. It starts with two heroes against 4 types of dragons.<br>
 The heroes are the Warrior (HP: 130 ATK: 12) and the Mage(HP: 80 ATK: 22). The dragons follows the same 'rule': the more the hp status, the less the damage inflicted.<br>
-Once you encounter the enemie, the two enemy dragons will be randomly generated. Each Dragon defeated counts as +10 on your score!<br>
+Once you encounter the enemies, the two enemy dragons will be randomly generated. Each Dragon defeated counts as +10 on your score!<br>
 If any of the heroes goes bellow 40HP, it starts dealing double damage. After each fight, both heroes are healed in 12HP.<br>
 
 ### Battling
