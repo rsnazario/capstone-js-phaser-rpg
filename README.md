@@ -1,6 +1,18 @@
 # capstone-js-phaser-rpg
 A RPG Turn Based Game Build Using the Phaser Framework
 
+## Content
+* [Live Demo](#online-version)
+* [Screenshots](#screenshots)
+* [Features](#features)
+* [Built With](#built-with)
+* [Getting Start](#getting-start)
+* [Tests](#testing)
+* [Overview](#game-overview)
+* [Contributing](#contributing)
+* [Acknowledgments](#acknowledgments)
+* [Authors](#authors)
+
 ## Screenshots
 
 ![](docs/mainscreen.png)
@@ -12,15 +24,7 @@ A RPG Turn Based Game Build Using the Phaser Framework
 ## Online Version
  [Live Demo ](https://agitated-rosalind-b151a5.netlify.app/)
 
-## Content
 
-* [Features](#features)
-* [Built With](#built-with)
-* [Getting Start](#getting-start)
-* [Overview](#overview)
-* [Contributing](#contributing)
-* [Acknowledgments](#acknowledgments)
-* [Authors](#authors)
 
 ## Features
 
@@ -67,7 +71,17 @@ npm install
 ````
 Now, you can just open your *Visual Studio Code* and click on `Go Live` if you have the `Live Server` extension installed properly. If it requires to select a folder to set as origin, make sure you choose `Dist` folder.
 
-### Overview
+## Testing
+
+After doing the `npm install`, all the the webpack depencies will be installed and with it will come the Jest Library.<br>
+The test for this project is only applicable to functions that are not related to Phaser Framework, which leaves us with the task of testing the API connection only.<br>
+Running the tests requires a simple use of the npm script, which triggers the Jest tool:
+```js
+npm test
+``` 
+
+
+### Game Overview
 The goal of the game is to kill as much dragons as possible while playing this Turn Based Role Playing Game. It starts with two heroes against 4 types of dragons.<br>
 The heroes are the Warrior (HP: 130 ATK: 12) and the Mage(HP: 80 ATK: 22). The dragons follows the same 'rule': the more the hp status, the less the damage inflicted.<br>
 Once you encounter the enemies, the two enemy dragons will be randomly generated. Each Dragon defeated counts as +10 on your score!<br>
