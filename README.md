@@ -115,7 +115,7 @@ As to improve the players best experience, there are some features to be added i
       <li>Effect Items</li>
     </ul>
   </li>
-  <li>Leveling Up Characters<li>
+  <li>Leveling Up Characters</li>
 </ul>
 
 ## Contributing
