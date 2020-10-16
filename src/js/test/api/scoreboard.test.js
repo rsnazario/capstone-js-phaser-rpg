@@ -41,7 +41,7 @@ describe('API Helper: Reorder', () => {
       { user: 'EEEE', score: 100 },
       { user: 'IIII', score: 100 },
       { user: 'OOOO', score: 100 },
-      { user: 'UUUU', score: 100 }
+      { user: 'UUUU', score: 100 },
     ];
     const result = scoreboard.orderedScores(mockedResponse);
 
