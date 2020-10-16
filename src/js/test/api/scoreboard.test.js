@@ -34,4 +34,25 @@ describe('API Helper: Reorder', () => {
 
     expect(result).toEqual(expectedResult);
   });
+
+  test('Does not change if all scores are equal (Do not change order based on user name', () => {
+    const mockedResponse = [
+      { user: 'AAAA', score: 100 },
+      { user: 'EEEE', score: 100 },
+      { user: 'IIII', score: 100 },
+      { user: 'OOOO', score: 100 },
+      { user: 'UUUU', score: 100 }
+    ];
+    const result = scoreboard.orderedScores(mockedResponse);
+
+    expect(result).toEqual(mockedResponse);
+  });
+
+  test('Empty Data', () => {
+    const mockedResponse = [];
+
+    const result = scoreboard.orderedScores(mockedResponse);
+
+    expect(result).toEqual([]);
+  });
 });
