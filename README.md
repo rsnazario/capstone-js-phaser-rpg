@@ -68,6 +68,10 @@ npm install
 
 Now, you can just open your *Visual Studio Code* and click on `Go Live` if you have the `Live Server` extension installed properly. If it requires to select a folder to set as origin, make sure you choose `Dist` folder.
 
+If you choose to run in your terminal, since the Live Server NPM is already installed when the command `npm install` is done, just run on your terminal:
+
+``` npm run server ```
+
 ## Testing
 
 After doing the `npm install`, all the the webpack depencies will be installed and with it will come the Jest Library.<br>
